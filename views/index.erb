@@ -1,0 +1,13 @@
+<h1>Gluent</h1>
+
+<% entries.each do |entry| %>
+  <div>
+    <div>
+      <%= entry[:body] %>
+    </div>
+    <div style="text-align: right;">
+      <%= entry[:filename] %>
+    </div>
+  </div>
+  <hr />
+<% end %>
