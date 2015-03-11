@@ -11,16 +11,79 @@ class Application < Sinatra::Base
     entries = []
 
     Dir.chdir($gluent_data_dir) do
-      entries = Dir.glob("*.md").map do |filename|
+      entries = Dir.glob("**/*.md").map do |filepath|
         {
-          :filename => filename,
-          :body => GitHub::Markup.render(filename)
+          :filepath => filepath,
+          :body => GitHub::Markup.render(filepath),
+          :git_status => git_status(filepath)
         }
       end.sort_by do |entry|
-        File::Stat.new(entry[:filename]).mtime
+        File::Stat.new(entry[:filepath]).mtime
       end.reverse
     end
     erb :index, :locals => {:entries => entries}
+  end
+
+  get "/create" do
+    erb :create, :locals => {:default_path => Time.now.strftime("%Y%m%d.md")}
+  end
+
+  post "/create" do
+    filepath = params[:filepath]
+
+    # TODO: sanitize filepath
+    Dir.chdir($gluent_data_dir) do
+      if File.exists?(filepath)
+        halt "#{h filepath} already exists!"
+      end
+      File.open(filepath, "w").close
+
+      run_git "add", filepath
+    end
+
+    redirect to("/show/#{filepath}")
+  end
+
+  get "/show/:filepath" do |filepath|
+    # TODO: sanitize filepath
+    entry = nil
+    status = nil
+
+    Dir.chdir($gluent_data_dir) do
+      if ! File.exists?(filepath)
+        pass
+      end
+
+      entry = {
+        :filepath => filepath,
+        :body => GitHub::Markup.render(filepath),
+        :git_status => git_status(filepath)
+      }
+    end
+    erb :show, :locals => {:entry => entry}
+  end
+
+  get "/edit/:filepath" do |filepath|
+    # TODO sanitize filepath
+    entry = nil
+    Dir.chdir($gluent_data_dir) do
+      entry = {
+        :filepath => filepath,
+        :source => File.read(filepath)
+      }
+    end
+    erb :edit, :locals => {:entry => entry}
+  end
+
+  post "/edit/:filepath" do |filepath|
+    # TODO  sanitize filepath
+    Dir.chdir($gluent_data_dir) do
+      File.open(filepath, "w") do |f|
+        f.print params[:content]
+      end
+    end
+
+    redirect to("/show/#{filepath}")
   end
 end
 

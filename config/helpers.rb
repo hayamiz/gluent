@@ -17,5 +17,42 @@ class Application < Sinatra::Base
         "<script src='/js/#{path}.js'></script>"
       end.join "\n"
     end
+
+    def h(text)
+      Rack::Utils.escape_html(text)
+    end
+
+    def run_git(*cmd)
+      cmd = ["git", *cmd]
+      stdout = nil
+      status = nil
+
+      begin
+        status = IO.popen(cmd, "r") do |io|
+          stdout = io.read
+          io.close
+          $?
+        end
+      rescue Errno::ENOENT
+        status = nil
+      end
+
+      if status.nil? || status.exitstatus != 0
+        halt "Failed to run: #{cmd.join(' ')}"
+      end
+
+      stdout
+    end
+
+    def git_status(filepath)
+      stdout = run_git "status", "--porcelain", "--", filepath
+      stdout.each_line do |line|
+        if line.include?(filepath)
+          return line.split[0]
+        end
+      end
+
+      nil
+    end
   end
 end

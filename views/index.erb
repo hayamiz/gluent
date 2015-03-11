@@ -1,13 +1,23 @@
 <h1>Gluent</h1>
 
+<ul>
+  <li><a href="/create">Create new entry</a></li>
+</ul>
+
 <% entries.each do |entry| %>
+  <hr />
   <div>
+    <div style="text-align: right;">
+<% if entry[:git_status] %>
+      <div class="warn">
+<% end %>
+        <a href="/show/<%= entry[:filepath] %>"><%= h entry[:filepath] %></a>
+<% if entry[:git_status] %>
+      </div>
+<% end %>
+    </div>
     <div>
       <%= entry[:body] %>
     </div>
-    <div style="text-align: right;">
-      <%= entry[:filename] %>
-    </div>
   </div>
-  <hr />
 <% end %>

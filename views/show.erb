@@ -1,0 +1,9 @@
+<h1><%= h entry[:filepath] %></h1>
+
+<% if entry[:git_status] %>
+<div class="warn">This entry is not commited.</div>
+<% end %>
+
+<div>
+  <%= entry[:body] %>
+</div>

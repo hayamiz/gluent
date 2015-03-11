@@ -1,0 +1,15 @@
+<div>
+<h2><%= h entry[:filepath] %></h2>
+<form action="/edit/<%= h entry[:filepath] %>" method="post">
+<input type="submit" />
+<hr />
+
+<textarea name="content" rows=80 cols=80>
+<%= entry[:source] %>
+</textarea>
+</form>
+</div>
+
+<div>
+
+</div>
