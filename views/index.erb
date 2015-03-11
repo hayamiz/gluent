@@ -8,13 +8,15 @@
   <hr />
   <div>
     <div style="text-align: right;">
-<% if entry[:git_status] %>
-      <div class="warn">
-<% end %>
-        <a href="/show/<%= entry[:filepath] %>"><%= h entry[:filepath] %></a>
-<% if entry[:git_status] %>
-      </div>
-<% end %>
+      <% if entry[:git_status] %>
+	<div class="warn">
+      <% end %>
+      <a href="/show/<%= entry[:filepath] %>"><%= h entry[:filepath] %></a>
+      <a href="/edit/<%= entry[:filepath] %>">[edit]</a>
+      <% if entry[:git_status] %>
+	<a href="/commit/<%= entry[:filepath] %>">[commit]</a>
+	</div>
+      <% end %>
     </div>
     <div>
       <%= entry[:body] %>

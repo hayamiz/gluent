@@ -1,6 +1,6 @@
 # gluent
 
-Yet another git+markdown based Wiki engine
+Yet another git+markdown based diary system.
 
 
 ## Special thanks

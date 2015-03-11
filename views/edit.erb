@@ -1,15 +1,35 @@
 <div>
-<h2><%= h entry[:filepath] %></h2>
-<form action="/edit/<%= h entry[:filepath] %>" method="post">
-<input type="submit" />
-<hr />
+  <h2><%= h entry[:filepath] %></h2>
+  <form action="/edit/<%= h entry[:filepath] %>" method="post">
+    <input type="submit" />
+    <hr />
 
-<textarea name="content" rows=80 cols=80>
-<%= entry[:source] %>
-</textarea>
-</form>
+    <div id="edit-input-form">
+      <textarea name="content" id="edit-content" rows=80><%= entry[:source] %></textarea>
+    </div>
+    <div id="edit-preview-div">
+      <div id="js-preview-div">
+	&nbsp;
+      </div>
+    </div>
+  </form>
 </div>
 
-<div>
+<script>
 
-</div>
+function update_edit_content(){
+$.get("/preview", { content: $("#edit-content").val()},
+	function(data){
+		var p = $("#js-preview-div");
+		p.empty();
+		p.append(data);
+		console.log("preview updated");
+	});
+}
+
+$("#edit-content").on("keyup", function(){
+	update_edit_content();
+});
+
+update_edit_content();
+</script>

@@ -1,39 +1,45 @@
-GIT
-  remote: git://github.com/sinatra/sinatra.git
-  revision: 79c5e311d1686b434e719e4804869c1de118b056
-  specs:
-    sinatra (1.4.5)
-      rack (~> 1.4)
-      rack-protection (~> 1.4)
-      tilt (>= 1.3, < 3)
-
 GEM
   remote: https://rubygems.org/
   specs:
+    backports (3.6.4)
     coffee-script (2.3.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.7.1)
-    daemons (1.1.9)
-    eventmachine (1.0.3)
-    execjs (2.2.1)
+    coffee-script-source (1.9.1)
+    daemons (1.2.1)
+    eventmachine (1.0.7)
+    execjs (2.4.0)
     github-markup (1.3.3)
-    r18n-core (1.1.11)
-    rack (1.5.2)
+    multi_json (1.11.0)
+    r18n-core (2.0.3)
+    rack (1.6.0)
     rack-protection (1.5.3)
       rack
-    redcarpet (3.0.0)
-    sass (3.4.0)
+    rack-test (0.6.3)
+      rack (>= 1.0)
+    redcarpet (3.2.2)
+    sass (3.4.13)
+    sinatra (1.4.5)
+      rack (~> 1.4)
+      rack-protection (~> 1.4)
+      tilt (~> 1.3, >= 1.3.4)
+    sinatra-contrib (1.4.2)
+      backports (>= 2.0)
+      multi_json
+      rack-protection
+      rack-test
+      sinatra (~> 1.4.0)
+      tilt (~> 1.3)
     sinatra-partial (0.4.0)
       sinatra
-    sinatra-r18n (1.1.11)
-      r18n-core (= 1.1.11)
+    sinatra-r18n (2.0.3)
+      r18n-core (= 2.0.3)
       sinatra (>= 1.3)
-    thin (1.6.2)
-      daemons (>= 1.0.9)
-      eventmachine (>= 1.0.0)
-      rack (>= 1.0.0)
-    tilt (2.0.1)
+    thin (1.6.3)
+      daemons (~> 1.0, >= 1.0.9)
+      eventmachine (~> 1.0)
+      rack (~> 1.0)
+    tilt (1.4.1)
 
 PLATFORMS
   ruby
@@ -43,7 +49,8 @@ DEPENDENCIES
   github-markup
   redcarpet
   sass
-  sinatra!
+  sinatra
+  sinatra-contrib
   sinatra-partial
   sinatra-r18n
   thin

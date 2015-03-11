@@ -1,8 +1,9 @@
 source "https://rubygems.org"
 
-gem "sinatra", github: "sinatra"
+gem "sinatra"
 gem "sinatra-r18n"
 gem "sinatra-partial"
+gem "sinatra-contrib"
 
 gem "thin"
 
