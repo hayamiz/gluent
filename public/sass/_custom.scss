@@ -1,0 +1,63 @@
+// Your custom SCSS should be written here...
+
+div.entry {
+  border: solid 1px lightgray;
+  padding: 1em;
+  margin-bottom: 2em;
+
+  h1 {
+    font-size: ms(3);
+  }
+  h2 {
+    font-size: ms(2.5);
+  }
+  h3 {
+    font-size: ms(2);
+  }
+  h4 {
+    font-size: ms(2);
+  }
+  h5 {
+    font-size: ms(2);
+  }
+  h6 {
+    font-size: ms(2);
+  }
+
+  ul {
+    list-style: disc outside;
+    margin-left: 1.5em;
+  }
+
+  div.entry-meta {
+    text-align: right;
+    background-color: $primary-color;
+    padding: 0.5em;
+    margin-bottom: 1em;
+
+    h2 {
+      font-size: ms(3);
+      display: inline;
+
+      a {
+        color: white;
+      }
+    }
+  }
+
+  div.uncommitted {
+    background-color: $warning-color;
+  }
+
+  code {
+    padding: 5px;
+    border-radius: 3px;
+    background-color: $default-color;
+    font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
+  }
+
+  pre code {
+    display: block;
+    padding: 8px 15px;
+  }
+}
