@@ -1,20 +1,17 @@
 <h1>Gluent</h1>
 
-<ul>
-  <li><a href="/create">Create new entry</a></li>
-</ul>
+<div class="medium primary btn pretty"><a href="/create">Create new entry</a></div>
+
+<hr />
 
 <% entries.each do |entry| %>
-  <hr />
-  <div>
-    <div style="text-align: right;">
+  <div class="entry">
+    <div class="entry-meta <% if entry[:git_status] %>uncommitted<% end %>">
+      <h2><a href="/show/<%= entry[:filepath] %>"><%= h entry[:filepath] %></a></h2>
+      <div class="small default btn pretty"><a href="/edit/<%= entry[:filepath] %>">Edit</a></div>
       <% if entry[:git_status] %>
-	<div class="warn">
-      <% end %>
-      <a href="/show/<%= entry[:filepath] %>"><%= h entry[:filepath] %></a>
-      <a href="/edit/<%= entry[:filepath] %>">[edit]</a>
-      <% if entry[:git_status] %>
-	<a href="/commit/<%= entry[:filepath] %>">[commit]</a>
+	<div class="small danger btn pretty">
+	  <a href="/commit/<%= entry[:filepath] %>">Commit</a>
 	</div>
       <% end %>
     </div>
