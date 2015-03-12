@@ -1,5 +1,17 @@
 // Your custom SCSS should be written here...
 
+div.stretch {
+  max-width: none;
+}
+
+div#edit-input-form {
+  textarea {
+    width: 90%;
+    height: 500px;
+    font-size: ms(0);
+  }
+}
+
 div.entry {
   border: solid 1px lightgray;
   padding: 1em;

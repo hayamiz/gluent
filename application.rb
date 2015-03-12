@@ -73,7 +73,7 @@ class Application < Sinatra::Base
         :source => File.read(filepath)
       }
     end
-    erb :edit, :locals => {:entry => entry}
+    erb :edit, :layout => :edit_layout, :locals => {:entry => entry}
   end
 
   post "/edit/:filepath" do |filepath|

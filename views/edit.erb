@@ -1,19 +1,19 @@
-<div>
-  <h2><%= h entry[:filepath] %></h2>
-  <form action="/edit/<%= h entry[:filepath] %>" method="post">
-    <input type="submit" />
-    <hr />
+<h2><%= h entry[:filepath] %></h2>
+<form action="/edit/<%= h entry[:filepath] %>" method="post">
+  <input type="submit" />
+  <hr />
 
-    <div id="edit-input-form">
+  <div class="row stretch">
+    <div id="edit-input-form" class="six columns">
       <textarea name="content" id="edit-content" rows=80><%= entry[:source] %></textarea>
     </div>
-    <div id="edit-preview-div">
-      <div id="js-preview-div">
+    <div id="edit-preview-div" class="six columns">
+      <div id="js-preview-div" class="entry">
 	&nbsp;
       </div>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 
 <script>
 
