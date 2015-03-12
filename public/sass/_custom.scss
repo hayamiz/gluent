@@ -5,16 +5,22 @@ div.stretch {
 }
 
 div#edit-input-form {
+  overflow: scroll;
+
   textarea {
-    width: 90%;
+    width: 99%;
     height: 500px;
-    font-size: ms(0);
+    font-size: ms(0.8);
   }
+}
+
+div#js-preview-div {
+  overflow: scroll;
 }
 
 div.entry {
   border: solid 1px lightgray;
-  padding: 1em;
+  padding: 20px;
   margin-bottom: 2em;
 
   h1 {

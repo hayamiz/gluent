@@ -1,13 +1,12 @@
-<h2><%= h entry[:filepath] %></h2>
 <form action="/edit/<%= h entry[:filepath] %>" method="post">
-  <input type="submit" />
+  <%= h entry[:filepath] %> <input type="submit" />
   <hr />
 
   <div class="row stretch">
-    <div id="edit-input-form" class="six columns">
+    <div id="edit-input-form" class="five columns">
       <textarea name="content" id="edit-content" rows=80><%= entry[:source] %></textarea>
     </div>
-    <div id="edit-preview-div" class="six columns">
+    <div id="edit-preview-div" class="seven columns">
       <div id="js-preview-div" class="entry">
 	&nbsp;
       </div>
@@ -23,7 +22,6 @@ $.get("/preview", { content: $("#edit-content").val()},
 		var p = $("#js-preview-div");
 		p.empty();
 		p.append(data);
-		console.log("preview updated");
 	});
 }
 
@@ -32,4 +30,24 @@ $("#edit-content").on("keyup", function(){
 });
 
 update_edit_content();
+
+function resize_elems() {
+	var textarea = $("#edit-content");
+	var preview_div = $("#js-preview-div");
+
+	// calculate optimal height
+	win_height = $(window).height();
+	var elems = [textarea, preview_div];
+	for (var i = 0; i < elems.length; i++) {
+		var elem = elems[i];
+		var pos = elem.position();
+		var h = win_height - pos.top - 10;
+
+		elem.outerHeight(h);
+	}
+}
+
+$(document).ready(resize_elems);
+$(window).resize(resize_elems);
+
 </script>

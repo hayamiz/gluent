@@ -1687,9 +1687,12 @@ table.rounded thead th, table.rounded thead td, table.rounded caption + tbody tr
 
 div.stretch { max-width: none; }
 
-div#edit-input-form textarea { width: 90%; height: 500px; font-size: 16px; }
+div#edit-input-form { overflow: scroll; }
+div#edit-input-form textarea { width: 99%; height: 500px; font-size: 16px; }
 
-div.entry { border: solid 1px lightgray; padding: 1em; margin-bottom: 2em; }
+div#js-preview-div { overflow: scroll; }
+
+div.entry { border: solid 1px lightgray; padding: 20px; margin-bottom: 2em; }
 div.entry h1 { font-size: 30px; }
 div.entry h2 { font-size: 26px; }
 div.entry h3 { font-size: 26px; }
