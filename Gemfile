@@ -8,6 +8,6 @@ gem "sinatra-contrib"
 gem "thin"
 
 gem "github-markup"
-gem "redcarpet"
+gem "github-markdown"
 gem "sass"
 gem "coffee-script"
