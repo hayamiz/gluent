@@ -1,45 +1,48 @@
 // Your custom SCSS should be written here...
 
-div.stretch {
-  max-width: none;
-}
-
-div#edit-input-form {
-  overflow: scroll;
-
-  textarea {
-    width: 99%;
-    height: 500px;
-    font-size: ms(0.8);
-  }
-}
-
-div#js-preview-div {
-  overflow: scroll;
-}
+/*
+ * Styles for common elements
+ */
+$entry-font-size: $base-font-size * 0.9;
+$entry-line-height: $base-line-height * 0.9;
 
 div.entry {
+  @include font-size($entry-font-size);
   border: solid 1px lightgray;
   padding: 20px;
   margin-bottom: 2em;
 
+  p {
+    @include font-size($entry-font-size);
+    margin-bottom: $entry-line-height * 0.4;
+  }
+
   h1 {
     font-size: ms(3);
+    border-bottom: solid 3px #ccc;
+    margin-bottom: $base-line-height / 2;
   }
   h2 {
-    font-size: ms(2.5);
+    font-size: ms(2.2);
+    border-bottom: solid 2px #dedede;
+    margin-bottom: $base-line-height / 2;
   }
   h3 {
-    font-size: ms(2);
+    font-size: ms(1.5);
+    border-bottom: dotted 1px #dedede;
+    margin-bottom: $base-line-height / 2;
   }
   h4 {
     font-size: ms(2);
+    margin-bottom: $base-line-height / 2;
   }
   h5 {
     font-size: ms(2);
+    margin-bottom: $base-line-height / 2;
   }
   h6 {
     font-size: ms(2);
+    margin-bottom: $base-line-height / 2;
   }
 
   ul {
@@ -49,6 +52,7 @@ div.entry {
 
   li {
     list-style: disc;
+    @include padding-trailer(0);
   }
 
   div.entry-meta {
@@ -72,7 +76,7 @@ div.entry {
   }
 
   code {
-    padding: 5px;
+    padding: $entry-font-size * 0.2;
     border-radius: 3px;
     background-color: $default-color;
     font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
@@ -82,4 +86,27 @@ div.entry {
     display: block;
     padding: 8px 15px;
   }
+}
+
+
+
+/*
+ * Styles for /edit related elements
+ */
+div.stretch {
+  max-width: none;
+}
+
+div#edit-input-form {
+  overflow: scroll;
+
+  textarea {
+    width: 99%;
+    height: 500px;
+    font-size: ms(0.8);
+  }
+}
+
+div#js-preview-div {
+  overflow: scroll;
 }
