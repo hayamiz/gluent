@@ -6,15 +6,24 @@
 $entry-font-size: $base-font-size * 0.9;
 $entry-line-height: $base-line-height * 0.9;
 
+.trailing-space {
+  margin-bottom: 2em;
+}
+
 div.entry {
   @include font-size($entry-font-size);
   border: solid 1px lightgray;
   padding: 20px;
-  margin-bottom: 2em;
 
   p {
     @include font-size($entry-font-size);
     margin-bottom: $entry-line-height * 0.4;
+  }
+
+  div.entry-meta {
+    h2 {
+      border: none;
+    }
   }
 
   h1 {
@@ -95,18 +104,55 @@ div.entry {
  */
 div.stretch {
   max-width: none;
+
+  form {
+    margin: 0;
+  }
 }
 
 div#edit-input-form {
   overflow: scroll;
+  @include font-size($entry-font-size);
 
   textarea {
+    @include font-size($entry-font-size);
     width: 99%;
     height: 500px;
-    font-size: ms(0.8);
   }
 }
 
 div#js-preview-div {
   overflow: scroll;
+}
+
+@mixin edit-status() {
+  display: block;
+  color: white;
+  font-weight: bold;
+  padding-right: 0.5em;
+}
+
+div#js-edit-status-div{
+  font-size: $base-font-size;
+  line-height: $base-font-size * 1.5;
+  height: $base-font-size * 1.5;
+  text-align: right;
+
+  display: none;
+  position: absolute;
+
+  div.saved {
+    @include edit-status();
+    background-color: $primary-color;
+  }
+
+  div.not-saved {
+    @include edit-status();
+    background-color: $warning-color;
+  }
+
+  div.error {
+    @include edit-status();
+    background-color: $danger-color;
+  }
 }

@@ -8,46 +8,124 @@
     </div>
     <div id="edit-preview-div" class="seven columns">
       <div id="js-preview-div" class="entry">
-	&nbsp;
       </div>
     </div>
   </div>
 </form>
 
+<div id="js-edit-status-div">
+</div>
+
 <script>
 
-function update_edit_content(){
-$.get("/preview", { content: $("#edit-content").val()},
-	function(data){
-		var p = $("#js-preview-div");
-		p.empty();
-		p.append(data);
-	});
+var cur_content = $("#edit-content").val();
+var last_saved_content = cur_content;
+var last_save_timestamp = null;
+
+function edit_form_keyup_handler(){
+  var content = $("#edit-content").val();
+  var do_update = false;
+
+  if (content != cur_content) {
+    cur_content = content;
+    do_update = true;
+    run_delayed_content_saver();
+  }
+
+  if ($("#js-preview-div").children().length == 0) {
+    do_update = true;
+  }
+
+  if (!do_update) {
+    return;
+  }
+
+  update_status();
+
+  $.get("/preview", { content: cur_content},
+    function(data){
+      var p = $("#js-preview-div");
+      p.empty();
+      p.append(data);
+    });
+}
+
+function update_status() {
+  if (cur_content == last_saved_content) {
+    if (last_save_timestamp == null) {
+      set_status("saved", "Opened");
+    } else {
+      set_status("saved", "Saved");
+    }
+  } else {
+    set_status("not-saved", "Modified");
+  }
+}
+
+function set_status(cssclass, msg) {
+  var status_div = $("#js-edit-status-div");
+
+  status_div.empty();
+  status_div.append($("<div/>", {class: cssclass, text: msg}));
+}
+
+function save_content() {
+  var saving_content = cur_content;
+  $.post("/edit/<%= h entry[:filepath] %>", { content: cur_content },
+    function(){
+      // success
+      set_status("saved", "Saved");
+      cur_content = saving_content;
+    }).fail(function(){
+      set_status("error", "Failed saving");
+    });
+}
+
+var saver_handler = null;
+function run_delayed_content_saver() {
+  if (saver_handler != null) {
+    clearTimeout(saver_handler);
+  }
+  saver_handler = setTimeout(save_content, 20 * 000);
 }
 
 $("#edit-content").on("keyup", function(){
-	update_edit_content();
+  edit_form_keyup_handler();
 });
 
-update_edit_content();
+edit_form_keyup_handler();
 
-function resize_elems() {
-	var textarea = $("#edit-content");
-	var preview_div = $("#js-preview-div");
+function layout_status() {
+  var status_div = $("#js-edit-status-div");
+  win_height = $(window).height();
+  win_width = $(window).width();
 
-	// calculate optimal height
-	win_height = $(window).height();
-	var elems = [textarea, preview_div];
-	for (var i = 0; i < elems.length; i++) {
-		var elem = elems[i];
-		var pos = elem.position();
-		var h = win_height - pos.top - 10;
-
-		elem.outerHeight(h);
-	}
+  status_div.outerWidth(win_width);
+  status_div.css({top: win_height - status_div.outerHeight(), left: 0, display: "block"});
 }
 
-$(document).ready(resize_elems);
-$(window).resize(resize_elems);
+function layout_form() {
+  var textarea = $("#edit-content");
+  var preview_div = $("#js-preview-div");
+
+  // calculate optimal height
+  win_height = $(window).height();
+  var elems = [textarea, preview_div];
+  for (var i = 0; i < elems.length; i++) {
+    var elem = elems[i];
+    var pos = elem.position();
+    var h = win_height - pos.top - 10 - 20;
+
+    elem.outerHeight(h);
+  }
+}
+
+function do_layout_elems() {
+  layout_form();
+  layout_status();
+}
+
+$(document).ready(do_layout_elems);
+$(window).resize(do_layout_elems);
 
 </script>
