@@ -1,5 +1,6 @@
-<form action="/edit/<%= h entry[:filepath] %>" method="post">
-  <%= h entry[:filepath] %> <input type="submit" />
+<form id="edit-form" action="/edit/<%= h entry[:filepath] %>" method="post">
+  <%= h entry[:filepath] %>
+  <div class="small primary btn pretty"><a href="javascript:submit_form();">submit</a></div>
   <hr />
 
   <div class="row stretch">
@@ -17,6 +18,11 @@
 </div>
 
 <script>
+
+function submit_form() {
+  last_saved_content = cur_content;
+  $("#edit-form").submit();
+}
 
 var cur_content = $("#edit-content").val();
 var last_saved_content = cur_content;
@@ -61,8 +67,7 @@ function update_status() {
     set_status("not-saved", "Modified");
   }
 }
-var status_updator = setInterval(update_status, 1 * 1000);
-
+var status_updator = setInterval(update_status, 10 * 1000);
 
 function readable_time_diff(a, b) {
   var ms_diff = a - b;
@@ -146,5 +151,13 @@ function do_layout_elems() {
 
 $(document).ready(do_layout_elems);
 $(window).resize(do_layout_elems);
+
+$(window).on('beforeunload', function() {
+  if (last_saved_content == cur_content) {
+    return;
+  } else {
+    return "Content is not saved yet.";
+  }
+});
 
 </script>
