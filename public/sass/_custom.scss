@@ -47,6 +47,10 @@ div.entry {
     margin-left: 1.5em;
   }
 
+  li {
+    list-style: disc;
+  }
+
   div.entry-meta {
     text-align: right;
     background-color: $primary-color;

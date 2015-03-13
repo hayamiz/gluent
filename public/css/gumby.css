@@ -1700,6 +1700,7 @@ div.entry h4 { font-size: 26px; }
 div.entry h5 { font-size: 26px; }
 div.entry h6 { font-size: 26px; }
 div.entry ul { list-style: disc outside; margin-left: 1.5em; }
+div.entry li { list-style: disc; }
 div.entry div.entry-meta { text-align: right; background-color: #3085d6; padding: 0.5em; margin-bottom: 1em; }
 div.entry div.entry-meta h2 { font-size: 30px; display: inline; }
 div.entry div.entry-meta h2 a { color: white; }
