@@ -86,7 +86,7 @@ function run_delayed_content_saver() {
   if (saver_handler != null) {
     clearTimeout(saver_handler);
   }
-  saver_handler = setTimeout(save_content, 20 * 000);
+  saver_handler = setTimeout(save_content, 30 * 1000);
 }
 
 $("#edit-content").on("keyup", function(){
