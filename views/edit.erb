@@ -159,7 +159,10 @@ function do_layout_elems() {
   layout_status();
 }
 
-$(document).ready(do_layout_elems);
+$(document).ready(function() {
+  do_layout_elems();
+  $("#edit-content").focus();
+});
 $(window).resize(do_layout_elems);
 
 $(window).on('beforeunload', function() {
