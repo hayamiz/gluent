@@ -56,6 +56,14 @@ function edit_form_keyup_handler(){
     });
 }
 
+function set_preview_scroll() {
+  var textarea = $("#edit-content");
+  var preview_div = $("#js-preview-div");
+
+  var scroll_frac = textarea.scrollTop() / (textarea[0].scrollHeight - textarea.height());
+  preview_div.scrollTop((preview_div[0].scrollHeight - preview_div.height()) * scroll_frac);
+}
+
 function update_status() {
   if (cur_content == last_saved_content) {
     if (last_save_timestamp == null) {
@@ -75,9 +83,7 @@ function readable_time_diff(a, b) {
     ms_diff *= -1;
   }
 
-  if (ms_diff < 60 * 1000) {
-    return Math.floor(ms_diff / 1000) + " seconds ago"
-  } else if (ms_diff < 60 * 60 * 1000) {
+  if (ms_diff < 60 * 60 * 1000) {
     return Math.floor(ms_diff / (60 * 1000)) + " minutes ago"
   } else {
     return Math.floor(ms_diff / (60 * 60 * 1000)) + " hours ago"
@@ -115,6 +121,10 @@ function run_delayed_content_saver() {
 
 $("#edit-content").on("keyup", function(){
   edit_form_keyup_handler();
+});
+
+$("#edit-content").on("scroll", function(){
+  set_preview_scroll();
 });
 
 edit_form_keyup_handler();
