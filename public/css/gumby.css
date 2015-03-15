@@ -1704,7 +1704,7 @@ div.entry div.entry-meta h2 { font-size: 30px; display: inline; }
 div.entry div.entry-meta h2 a { color: white; }
 div.entry div.uncommitted { background-color: #f6b83f; }
 div.entry code { padding: 2.88px; border-radius: 3px; background-color: #f2f2f2; font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace; }
-div.entry pre code { display: block; padding: 8px 15px; margin-bottom: 13px; }
+div.entry pre code { display: block; padding: 8px 15px; margin-bottom: 13px; overflow-x: scroll; }
 
 /* Styles for /edit related elements */
 div.stretch { max-width: none; }
