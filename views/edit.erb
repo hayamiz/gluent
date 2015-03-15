@@ -32,6 +32,8 @@ function edit_form_keyup_handler(){
   var content = $("#edit-content").val();
   var do_update = false;
 
+  set_preview_scroll();
+  
   if (content != cur_content) {
     cur_content = content;
     do_update = true;
