@@ -48,7 +48,7 @@ function edit_form_keyup_handler(){
 
   update_status();
 
-  $.get("/preview", { content: cur_content},
+  $.post("/preview", { content: cur_content},
     function(data){
       var p = $("#js-preview-div");
       p.empty();

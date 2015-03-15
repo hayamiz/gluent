@@ -89,7 +89,7 @@ class Application < Sinatra::Base
     redirect to("/show/#{filepath}")
   end
 
-  get "/preview" do
+  post "/preview" do
     unless params[:content]
       halt "no content"
     end
