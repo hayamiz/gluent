@@ -4,6 +4,19 @@ Bundler.require :default, (ENV["RACK_ENV"] || "development").to_sym
 require 'sinatra/reloader' if development?
 require "github/markup"
 
+class ImagePathFilter < HTML::Pipeline::Filter
+  def call
+    doc.search("img").each do |img|
+      next if img['src'].nil?
+      src = img['src'].strip
+      if ! src.start_with? '/'
+        img["src"] = "/data/" + src
+      end
+    end
+    doc
+  end
+end
+
 class Application < Sinatra::Base
   register Sinatra::R18n
   register Sinatra::Partial
@@ -11,17 +24,21 @@ class Application < Sinatra::Base
   get "/" do
     entries = []
 
+    p "get / method"
+
     Dir.chdir($gluent_data_dir) do
       entries = Dir.glob("**/*.md").map do |filepath|
+        p filepath
         {
           :filepath => filepath,
-          :body => GitHub::Markup.render(filepath),
+          :body => render_markdown(File.read(filepath)), # GitHub::Markup.render(filepath),
           :git_status => git_status(filepath)
         }
       end.sort_by do |entry|
         File::Stat.new(entry[:filepath]).mtime
       end.reverse
     end
+
     erb :index, :locals => {:entries => entries}
   end
 
@@ -45,7 +62,7 @@ class Application < Sinatra::Base
     redirect to("/edit/#{filepath}")
   end
 
-  get "/show/:filepath" do |filepath|
+  get "/show/*" do |filepath|
     # TODO: sanitize filepath
     entry = nil
     status = nil
@@ -57,11 +74,23 @@ class Application < Sinatra::Base
 
       entry = {
         :filepath => filepath,
-        :body => GitHub::Markup.render(filepath),
+        :body => render_markdown(File.read(filepath)), # GitHub::Markup.render(filepath),
         :git_status => git_status(filepath)
       }
     end
     erb :show, :locals => {:entry => entry}
+  end
+
+  get "/data/*" do |filepath|
+    # TODO sanitize filepath
+
+    Dir.chdir($gluent_data_dir) do
+      if ! File.exists? filepath
+        halt 404, "no such file: #{filepath}"
+      end
+    end
+
+    send_file File.expand_path(filepath, $gluent_data_dir)
   end
 
   get "/edit/:filepath" do |filepath|
@@ -94,7 +123,8 @@ class Application < Sinatra::Base
       halt "no content"
     end
 
-    GitHub::Markup.render("content.md", params[:content])
+    # GitHub::Markup.render("content.md", params[:content])
+    render_markdown(params[:content])
   end
 
   get "/commit/:filepath" do |filepath|

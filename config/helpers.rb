@@ -33,6 +33,12 @@ class Application < Sinatra::Base
       end.join "\n"
     end
 
+    def render_markdown(src)
+      pipe = HTML::Pipeline.new [HTML::Pipeline::MarkdownFilter, ImagePathFilter]
+
+      pipe.call(src)[:output].to_s
+    end
+
     def h(text)
       Rack::Utils.escape_html(text)
     end
