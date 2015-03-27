@@ -118,6 +118,7 @@ div#edit-input-form {
 
   textarea {
     @include font-size($entry-font-size);
+    font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
     width: 99%;
     height: 500px;
   }

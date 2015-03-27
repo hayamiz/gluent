@@ -1711,7 +1711,7 @@ div.stretch { max-width: none; }
 div.stretch form { margin: 0; }
 
 div#edit-input-form { overflow: scroll; font-size: 14.4px; font-size: 0.9rem; }
-div#edit-input-form textarea { font-size: 14.4px; font-size: 0.9rem; width: 99%; height: 500px; }
+div#edit-input-form textarea { font-size: 14.4px; font-size: 0.9rem; font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace; width: 99%; height: 500px; }
 
 div#js-preview-div { overflow: scroll; }
 
