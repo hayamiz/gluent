@@ -1,7 +1,8 @@
 <form id="edit-form" action="/edit/<%= h entry[:filepath] %>" method="post">
+  <a href="/">TOP</a>
+  &nbsp;/&nbsp;
   <%= h entry[:filepath] %>
   <div class="small primary btn pretty"><a href="javascript:submit_form();">submit</a></div>
-  <hr />
 
   <div class="row stretch">
     <div id="edit-input-form" class="five columns">
