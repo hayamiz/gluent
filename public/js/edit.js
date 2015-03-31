@@ -3,6 +3,17 @@ function submit_form() {
   $("#edit-form").submit();
 }
 
+function convert_puct() {
+  var content = $("#edit-content").val();
+
+  content = content.replace(/、/g, "，");
+  content = content.replace(/。/g, "．");
+
+  $("#edit-content").val(content);
+
+  edit_form_keyup_handler();
+}
+
 var cur_content = $("#edit-content").val();
 var last_saved_content = cur_content;
 var last_save_timestamp = null;
