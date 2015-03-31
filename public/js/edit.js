@@ -18,6 +18,7 @@ var cur_content = $("#edit-content").val();
 var last_saved_content = cur_content;
 var last_save_timestamp = null;
 var status_bar = null;
+var mouse_left_down = false;
 
 function edit_form_keyup_handler(){
   var content = $("#edit-content").val();
@@ -64,8 +65,21 @@ function edit_form_keydown_handler(){
   return;
 }
 
-function edit_form_mouseup_handler(){
+function edit_form_mouseup_handler(e){
+  if (e.button == 0) {          // left mouse button
+    mouse_left_down = false;
+  }
   update_selection_info();
+}
+function edit_form_mousedown_handler(e){
+  if (e.button == 0) {          // left mouse button
+    mouse_left_down = true;
+  }
+}
+function edit_form_mousemove_handler(e){
+  if (mouse_left_down) {
+    update_selection_info();
+  }
 }
 
 function update_status() {
@@ -211,7 +225,13 @@ $("#edit-content").on("keydown", function(e){
   edit_form_keydown_handler();
 });
 $("#edit-content").on("mouseup", function(e){
-  edit_form_mouseup_handler();
+  edit_form_mouseup_handler(e);
+});
+$("#edit-content").on("mousedown", function(e){
+  edit_form_mousedown_handler(e);
+});
+$("#edit-content").on("mousemove", function(e){
+  edit_form_mousemove_handler(e);
 });
 
 function set_preview_scroll() {
