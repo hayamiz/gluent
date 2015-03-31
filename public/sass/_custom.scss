@@ -95,7 +95,7 @@ div.entry {
     display: block;
     padding: 8px 15px;
     margin-bottom: $base-line-height / 2;
-    overflow-x: scroll;
+    overflow-x: auto;
   }
 }
 
@@ -113,7 +113,7 @@ div.stretch {
 }
 
 div#edit-input-form {
-  overflow: scroll;
+  overflow: auto;
   @include font-size($entry-font-size);
 
   textarea {
@@ -135,7 +135,7 @@ div#js-preview-div {
   padding-right: 0.5em;
 }
 
-div#js-edit-status-div{
+div#js-edit-status-div {
   font-size: $base-font-size;
   line-height: $base-font-size * 1.5;
   height: $base-font-size * 1.5;
@@ -144,18 +144,29 @@ div#js-edit-status-div{
   display: none;
   position: absolute;
 
-  div.saved {
-    @include edit-status();
-    background-color: $primary-color;
+  div#js-edit-status-right-div {
+    color: white;
+    font-weight: bold;
+    float: right;
+    padding-right: 0.5em;
   }
 
-  div.not-saved {
-    @include edit-status();
-    background-color: $warning-color;
-  }
+  div#js-edit-status-left-div {
+    color: white;
+    font-weight: bold;
+    float: left;
+    padding-left: 0.5em;
 
-  div.error {
-    @include edit-status();
-    background-color: $danger-color;
+    font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
   }
+}
+
+div.saved {
+  background-color: $primary-color;
+}
+div.not-saved {
+  background-color: $warning-color;
+}
+div.error {
+  background-color: $danger-color;
 }

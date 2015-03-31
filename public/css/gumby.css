@@ -1704,18 +1704,23 @@ div.entry div.entry-meta h2 { font-size: 30px; display: inline; }
 div.entry div.entry-meta h2 a { color: white; }
 div.entry div.uncommitted { background-color: #f6b83f; }
 div.entry code { padding: 2.88px; border-radius: 3px; background-color: #f2f2f2; font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace; }
-div.entry pre code { display: block; padding: 8px 15px; margin-bottom: 13px; overflow-x: scroll; }
+div.entry pre code { display: block; padding: 8px 15px; margin-bottom: 13px; overflow-x: auto; }
 
 /* Styles for /edit related elements */
 div.stretch { max-width: none; }
 div.stretch form { margin: 0; }
 
-div#edit-input-form { overflow: scroll; font-size: 14.4px; font-size: 0.9rem; }
+div#edit-input-form { overflow: auto; font-size: 14.4px; font-size: 0.9rem; }
 div#edit-input-form textarea { font-size: 14.4px; font-size: 0.9rem; font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace; width: 99%; height: 500px; }
 
 div#js-preview-div { overflow: scroll; }
 
 div#js-edit-status-div { font-size: 16px; line-height: 24px; height: 24px; text-align: right; display: none; position: absolute; }
-div#js-edit-status-div div.saved { display: block; color: white; font-weight: bold; padding-right: 0.5em; background-color: #3085d6; }
-div#js-edit-status-div div.not-saved { display: block; color: white; font-weight: bold; padding-right: 0.5em; background-color: #f6b83f; }
-div#js-edit-status-div div.error { display: block; color: white; font-weight: bold; padding-right: 0.5em; background-color: #ca3838; }
+div#js-edit-status-div div#js-edit-status-right-div { color: white; font-weight: bold; float: right; padding-right: 0.5em; }
+div#js-edit-status-div div#js-edit-status-left-div { color: white; font-weight: bold; float: left; padding-left: 0.5em; font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace; }
+
+div.saved { background-color: #3085d6; }
+
+div.not-saved { background-color: #f6b83f; }
+
+div.error { background-color: #ca3838; }
