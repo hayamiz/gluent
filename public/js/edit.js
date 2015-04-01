@@ -14,18 +14,9 @@ function convert_puct() {
   edit_form_keyup_handler();
 }
 
-var cur_content = $("#edit-content").val();
-var last_saved_content = cur_content;
-var last_save_timestamp = null;
-var status_bar = null;
-var mouse_left_down = false;
-
-function edit_form_keyup_handler(){
+function update_preview() {
   var content = $("#edit-content").val();
   var do_update = false;
-
-  update_selection_info();
-  set_preview_scroll();
 
   if (content != cur_content) {
     cur_content = content;
@@ -41,14 +32,20 @@ function edit_form_keyup_handler(){
     return;
   }
 
-  update_status();
-
   $.post("/preview", { content: cur_content},
     function(data){
       var p = $("#js-preview-div");
       p.empty();
       p.append(data);
     });
+}
+
+function edit_form_keyup_handler(){
+
+  update_selection_info();
+  set_preview_scroll();
+
+  update_status();
 }
 
 function update_selection_info(){
@@ -114,6 +111,28 @@ function readable_time_diff(a, b) {
     return Math.floor(ms_diff / (60 * 1000)) + " minutes ago"
   } else {
     return Math.floor(ms_diff / (60 * 60 * 1000)) + " hours ago"
+  }
+}
+
+function LazyDispatcher(func, latency) {
+  this.handle = null;
+  this.func = func;
+  this.latency = latency;
+}
+LazyDispatcher.prototype = {
+  fire: function(){
+    var dispatcher = this;
+    if (this.handle != null) {
+      clearTimeout(this.handle);
+    }
+
+    this.handle = setTimeout(function(){
+      dispatcher.func();
+      dispatcher.handle = null;
+    }, this.latency);
+  },
+  set_func: function(func) {
+    this.func = func;
   }
 }
 
@@ -276,7 +295,17 @@ function do_layout_elems() {
   layout_status();
 }
 
+
+// global variables
+
+var cur_content = $("#edit-content").val();
+var last_saved_content = cur_content;
+var last_save_timestamp = null;
+var status_bar = null;
+var mouse_left_down = false;
 var ma;
+var update_preview_timer = setInterval(update_preview, 2000);
+
 $(document).ready(function() {
   var textarea = $("#edit-content");
   status_bar = new StatusBar();
