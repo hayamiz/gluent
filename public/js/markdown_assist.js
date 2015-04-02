@@ -10,6 +10,9 @@ function MarkdownAssistant(textarea) {
   this.textarea.on("keydown", function(e){
     return ma.keydown_handler(e);
   });
+  this.textarea.on("keyup", function(e){
+    return ma.keyup_handler(e);
+  });
 }
 
 MarkdownAssistant.prototype.keydown_handler = function(e) {
@@ -19,6 +22,52 @@ MarkdownAssistant.prototype.keydown_handler = function(e) {
     return this.action_TabKey(e.shiftKey);
   }
 };
+
+MarkdownAssistant.prototype.keyup_handler = function(e) {
+  this.close_pair(e);
+}
+
+MarkdownAssistant.prototype.close_pair = function(e) {
+  var elem = this.textarea[0];
+  var prev_char = elem.value.substring(elem.selectionStart - 1, elem.selectionStart);
+  var next_char = elem.value.substring(elem.selectionStart, elem.selectionStart + 1);
+
+  if (prev_char != e.key) {
+    return;
+  }
+
+  switch(next_char) {
+  case " ":
+  case "\n":
+  case "\r":
+  case "\t":
+  case "":
+    break;
+  default:
+    return;
+  }
+
+  var pair_maps = {
+    "(": ")",
+    "[": "]",
+    "{": "}",
+    "\"": "\"",
+    "'": "'"
+  };
+
+  console.log(pair_maps);
+  console.log(e.key);
+  console.log(pair_maps[e.key]);
+
+  var ma = this;
+  this.save_excursion(function(){
+    if (pair_maps[e.key]) {
+      ma.insert(pair_maps[e.key]);
+    }
+  });
+};
+
+
 
 MarkdownAssistant.prototype.action_EnterKey = function() {
   var context = this.getContext();
