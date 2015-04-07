@@ -1706,6 +1706,13 @@ div.entry div.uncommitted { background-color: #f6b83f; }
 div.entry code { padding: 2.88px; border-radius: 3px; background-color: #f2f2f2; font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace; }
 div.entry pre code { display: block; padding: 8px 15px; margin-bottom: 13px; overflow-x: auto; }
 
+/* Styles for /index */
+ul.pages { text-align: center; }
+ul.pages li { display: inline; }
+ul.pages li a { border: solid 1px #3085d6; background: #3085d6; color: white; padding: 5px 8px; }
+ul.pages li a:hover { color: #3085d6; background: white; }
+ul.pages li a.current-page { color: #3085d6; background: white; }
+
 /* Styles for /create */
 input.create { font-size: 32px; }
 

@@ -22,24 +22,33 @@ class Application < Sinatra::Base
   register Sinatra::Partial
 
   get "/" do
+    per_page = 10
     entries = []
-
-    p "get / method"
+    num_pages = 1
+    page_idx = params[:page].to_i || 1 # 1-origin
 
     Dir.chdir($gluent_data_dir) do
-      entries = Dir.glob("**/*.md").map do |filepath|
-        p filepath
+      entry_files = Dir.glob("**/*.md").sort_by do |filepath|
+        File::Stat.new(filepath).mtime
+      end.reverse
+
+      num_pages = (entry_files.size - 1) / per_page + 1
+      if page_idx > num_pages
+        page_idx = num_pages
+      end
+
+      entry_files = entry_files[(per_page * (page_idx - 1)),per_page]
+
+      entries = entry_files.map do |filepath|
         {
           :filepath => filepath,
           :body => render_markdown(File.read(filepath)), # GitHub::Markup.render(filepath),
           :git_status => git_status(filepath)
         }
-      end.sort_by do |entry|
-        File::Stat.new(entry[:filepath]).mtime
-      end.reverse
+      end
     end
 
-    erb :index, :locals => {:entries => entries}
+    erb :index, :locals => {:entries => entries, :num_pages => num_pages, :page_idx => page_idx}
   end
 
   get "/create" do

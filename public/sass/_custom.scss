@@ -101,6 +101,34 @@ div.entry {
 
 
 /*
+ * Styles for /index
+ */
+
+ul.pages {
+  text-align: center;
+
+  li {
+    display: inline;
+
+    a {
+      border: solid 1px $primary-color;
+      background: $primary-color;
+      color: white;
+      padding: 5px 8px;
+    }
+    a:hover {
+      color: $primary-color;
+      background: white;
+    }
+    a.current-page {
+      color: $primary-color;
+      background: white;
+    }
+  }
+}
+
+
+/*
  * Styles for /create
  */
 input.create {
