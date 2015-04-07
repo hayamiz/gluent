@@ -9,6 +9,11 @@ class ImagePathFilter < HTML::Pipeline::Filter
     doc.search("img").each do |img|
       next if img['src'].nil?
       src = img['src'].strip
+
+      if src =~ /^https?:\/\//
+        next
+      end
+
       if ! src.start_with? '/'
         img["src"] = "/data/" + src
       end
