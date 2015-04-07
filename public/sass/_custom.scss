@@ -129,6 +129,9 @@ div#edit-input-form {
     width: 99%;
     height: 500px;
   }
+  textarea.dragover {
+    border: 5px $primary-color dotted;
+  }
 }
 
 div#js-preview-div {

@@ -3,6 +3,7 @@
 function MarkdownAssistant(textarea) {
   var ma = this;
   this.textarea = textarea;
+  this.text_length = this.textarea[0].value.length;
 
   this.in_save_excursion = false;
 
@@ -16,6 +17,8 @@ function MarkdownAssistant(textarea) {
 }
 
 MarkdownAssistant.prototype.keydown_handler = function(e) {
+  this.text_length = this.textarea[0].value.length;
+
   if (e.keyCode == 13) {        // Enter
     return this.action_EnterKey();
   } else if (e.keyCode == 9) {  // <TAB>
@@ -24,17 +27,33 @@ MarkdownAssistant.prototype.keydown_handler = function(e) {
 };
 
 MarkdownAssistant.prototype.keyup_handler = function(e) {
-  this.close_pair(e);
+  var changed = false;
+  if (this.text_length != this.textarea[0].value.length) {
+    changed = true;
+  }
+
+  if (changed) {
+    this.close_pair(e);
+  }
+}
+
+MarkdownAssistant.prototype.keycode2char = function(e) {
+  // TODO
+  var map = {
+    219: "[",
+  };
+
+  if (e.shiftKey) {
+    map[219] = "{";
+  }
+
+  return map[e.keyCode];
 }
 
 MarkdownAssistant.prototype.close_pair = function(e) {
   var elem = this.textarea[0];
   var prev_char = elem.value.substring(elem.selectionStart - 1, elem.selectionStart);
   var next_char = elem.value.substring(elem.selectionStart, elem.selectionStart + 1);
-
-  if (prev_char != e.key) {
-    return;
-  }
 
   switch(next_char) {
   case " ":
@@ -55,14 +74,10 @@ MarkdownAssistant.prototype.close_pair = function(e) {
     "'": "'"
   };
 
-  console.log(pair_maps);
-  console.log(e.key);
-  console.log(pair_maps[e.key]);
-
   var ma = this;
   this.save_excursion(function(){
-    if (pair_maps[e.key]) {
-      ma.insert(pair_maps[e.key]);
+    if (pair_maps[prev_char]) {
+      ma.insert(pair_maps[prev_char]);
     }
   });
 };

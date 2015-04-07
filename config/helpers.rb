@@ -75,5 +75,42 @@ class Application < Sinatra::Base
 
       nil
     end
+
+    def available_filepath(orig_filename, mime_type)
+      orig_filename = File.basename(orig_filename)
+
+      unless File.exists?(File.expand_path(orig_filename, $gluent_data_dir))
+        return File.expand_path(orig_filename, $gluent_data_dir)
+      end
+
+      ext = nil
+
+      if orig_filename =~ /\.([a-zA-Z0-9]+)$/
+        ext = "." + $~[1]
+      else
+        case mime_type
+        when "image/gif"
+          ext = ".gif"
+        when "image/png"
+          ext = ".png"
+        when "image/jpeg"
+          ext = ".jpg"
+        else
+          ext = ""
+        end
+      end
+
+      base = File.basename(orig_filename, ext)
+
+      idx = 1
+      while true
+        path = File.expand_path(sprintf("%s_%d%s", base, idx, ext), $gluent_data_dir)
+        unless File.exists?(path)
+          return path
+        end
+
+        idx += 1
+      end
+    end
   end
 end

@@ -127,6 +127,47 @@ class Application < Sinatra::Base
     render_markdown(params[:content])
   end
 
+  post "/upload" do
+    content_type :json
+
+    file_keys = params.keys.select do |key_sym|
+      key_sym.to_s =~ /^files_(\d+)$/
+    end
+
+    if file_keys.size == 0
+      halt "no file"
+    end
+
+    uploaded_files = file_keys.map do |key|
+      params[key]
+    end.map do |file|
+      # find available file name
+      filename = file[:filename]
+      mime_type = file[:type]
+      tmpfile = file[:tempfile]
+
+      filepath = available_filepath(filename, mime_type)
+      $stderr.puts(filepath)
+      File.open(filepath, "w") do |f|
+        while blk = tmpfile.read(65536)
+          f.print(blk)
+        end
+      end
+
+      rel_path = Pathname.new(filepath).relative_path_from(Pathname.new($gluent_data_dir)).to_s
+      $stderr.puts(rel_path)
+      rel_path = "/data/" + rel_path
+
+      {
+        :filename => filename,
+        :path => rel_path,
+        :type => mime_type
+      }
+    end
+
+    uploaded_files.to_json
+  end
+
   get "/commit/:filepath" do |filepath|
     # TODO: sanitize filepath
     Dir.chdir($gluent_data_dir) do
