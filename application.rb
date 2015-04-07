@@ -25,7 +25,7 @@ class Application < Sinatra::Base
     per_page = 10
     entries = []
     num_pages = 1
-    page_idx = params[:page].to_i || 1 # 1-origin
+    page_idx = (params[:page] || 1).to_i # 1-origin
 
     Dir.chdir($gluent_data_dir) do
       entry_files = Dir.glob("**/*.md").sort_by do |filepath|
