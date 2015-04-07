@@ -2,7 +2,10 @@
   <a href="/">TOP</a>
   &nbsp;/&nbsp;
   <%= h entry[:filepath] %>
-  <div class="small primary btn pretty"><a href="javascript:submit_form();">submit</a></div>
+  <div class="small primary btn pretty">
+    <a href="javascript:save_content();">save</a>
+  </div>
+  <div class="small danger btn pretty"><a href="javascript:submit_form();">submit &amp; commit</a></div>
   &nbsp;/&nbsp;
   <div class="small default btn pretty"><a href="javascript:convert_puct();">句読点変換「、。」→「，．」</a></div>
 

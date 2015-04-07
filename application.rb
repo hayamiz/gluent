@@ -127,6 +127,8 @@ class Application < Sinatra::Base
       File.open(filepath, "w") do |f|
         f.print params[:content]
       end
+
+      run_git "commit", "-m", "commit from gluent", "--", filepath
     end
 
     redirect to("/show/#{filepath}")
