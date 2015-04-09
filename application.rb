@@ -170,6 +170,8 @@ class Application < Sinatra::Base
         end
       end
 
+      run_git "add", filepath
+
       rel_path = Pathname.new(filepath).relative_path_from(Pathname.new($gluent_data_dir)).to_s
       $stderr.puts(rel_path)
       rel_path = "/data/" + rel_path
