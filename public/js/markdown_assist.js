@@ -11,8 +11,8 @@ function MarkdownAssistant(textarea) {
   this.textarea.on("keydown", function(e){
     return ma.keydown_handler(e);
   });
-  this.textarea.on("keyup", function(e){
-    return ma.keyup_handler(e);
+  this.textarea.on("keypress", function(e){
+    return ma.keypress_handler(e);
   });
 }
 
@@ -26,34 +26,35 @@ MarkdownAssistant.prototype.keydown_handler = function(e) {
   }
 };
 
-MarkdownAssistant.prototype.keyup_handler = function(e) {
-  var changed = false;
-  if (this.text_length != this.textarea[0].value.length) {
-    changed = true;
-  }
-
-  if (changed) {
-    this.close_pair(e);
-  }
-}
-
-MarkdownAssistant.prototype.keycode2char = function(e) {
-  // TODO
-  var map = {
-    219: "[",
-  };
-
-  if (e.shiftKey) {
-    map[219] = "{";
-  }
-
-  return map[e.keyCode];
-}
-
-MarkdownAssistant.prototype.close_pair = function(e) {
+MarkdownAssistant.prototype.keypress_handler = function(e) {
   var elem = this.textarea[0];
   var prev_char = elem.value.substring(elem.selectionStart - 1, elem.selectionStart);
   var next_char = elem.value.substring(elem.selectionStart, elem.selectionStart + 1);
+  var insert_char = String.fromCharCode(e.keyCode);
+
+  var pair_maps = {
+    "(": ")",
+    "[": "]",
+    "{": "}",
+    "\"": "\"",
+    "'": "'"
+  };
+  var closers = []
+  for (key in pair_maps) {
+    closers.push(pair_maps[key]);
+  }
+
+  if (closers.indexOf(insert_char) >= 0 && next_char == insert_char) {
+    this.goto_char(elem.selectionStart + 1);
+    return false;
+  }
+
+  var corr_char = pair_maps[insert_char];
+
+  // do nothing when non-special chars inserted
+  if (corr_char == undefined) {
+    return true;
+  }
 
   switch(next_char) {
   case " ":
@@ -63,23 +64,18 @@ MarkdownAssistant.prototype.close_pair = function(e) {
   case "":
     break;
   default:
-    return;
+    return true;
   }
 
-  var pair_maps = {
-    "(": ")",
-    "[": "]",
-    "{": "}",
-    "\"": "\"",
-    "'": "'"
-  };
-
   var ma = this;
+  var final_pos = elem.selectionStart;
   this.save_excursion(function(){
-    if (pair_maps[prev_char]) {
-      ma.insert(pair_maps[prev_char]);
-    }
+    ma.insert(insert_char + corr_char);
+    final_pos++;
   });
+  this.goto_char(final_pos);
+
+  return false;
 };
 
 
