@@ -198,6 +198,10 @@ class Application < Sinatra::Base
 
     redirect to("/show/#{filepath}")
   end
+
+  get "/sandbox" do
+    erb :sandbox
+  end
 end
 
 Dir[File.dirname(__FILE__) + "/config/*.rb"].each { |file| require file }
