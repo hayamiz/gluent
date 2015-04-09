@@ -27,7 +27,7 @@ class Application < Sinatra::Base
   register Sinatra::Partial
 
   get "/" do
-    per_page = 10
+    per_page = 20
     entries = []
     num_pages = 1
     page_idx = (params[:page] || 1).to_i # 1-origin
