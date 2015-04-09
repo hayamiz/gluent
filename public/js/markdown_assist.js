@@ -30,7 +30,7 @@ MarkdownAssistant.prototype.keypress_handler = function(e) {
   var elem = this.textarea[0];
   var prev_char = elem.value.substring(elem.selectionStart - 1, elem.selectionStart);
   var next_char = elem.value.substring(elem.selectionStart, elem.selectionStart + 1);
-  var insert_char = String.fromCharCode(e.keyCode);
+  var insert_char = String.fromCharCode(e.charCode);
 
   var pair_maps = {
     "(": ")",
