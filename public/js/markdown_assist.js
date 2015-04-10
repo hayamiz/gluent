@@ -37,7 +37,8 @@ MarkdownAssistant.prototype.keypress_handler = function(e) {
     "[": "]",
     "{": "}",
     "\"": "\"",
-    "'": "'"
+    "'": "'",
+    "`": "`",
   };
   var closers = []
   for (key in pair_maps) {
@@ -56,16 +57,16 @@ MarkdownAssistant.prototype.keypress_handler = function(e) {
     return true;
   }
 
-  switch(next_char) {
-  case " ":
-  case "\n":
-  case "\r":
-  case "\t":
-  case "":
-    break;
-  default:
-    return true;
-  }
+//  switch(next_char) {
+//  case " ":
+//  case "\n":
+//  case "\r":
+//  case "\t":
+//  case "":
+//    break;
+//  default:
+//    return true;
+//  }
 
   var ma = this;
   var final_pos = elem.selectionStart;
