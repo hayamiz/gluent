@@ -14,8 +14,28 @@ function convert_puct() {
   edit_form_keyup_handler();
 }
 
+function toggle_preview() {
+  var preview_div = $("#js-preview-div");
+  var edit_input_div = $("#edit-input-form");
+
+  preview_div.toggle();
+
+  if (preview_div.css("display") == "none") {
+    console.log("none");
+    edit_input_div.removeClass();
+    edit_input_div.addClass("twelve");
+    edit_input_div.addClass("columns");
+  } else {
+    console.log("block");
+    edit_input_div.removeClass();
+    edit_input_div.addClass("five");
+    edit_input_div.addClass("columns");
+  }
+}
+
 function update_preview() {
   var content = $("#edit-content").val();
+  var preview_div = $("#js-preview-div");
   var do_update = false;
 
   if (content != cur_content) {
@@ -24,8 +44,12 @@ function update_preview() {
     run_delayed_content_saver();
   }
 
-  if ($("#js-preview-div").children().length == 0) {
+  if (preview_div.children().length == 0) {
     do_update = true;
+  }
+
+  if (preview_div.css("display") == "none") {
+    do_update = false;
   }
 
   if (!do_update) {
