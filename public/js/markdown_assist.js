@@ -27,7 +27,60 @@ MarkdownAssistant.prototype.keydown_handler = function(e) {
 };
 
 MarkdownAssistant.prototype.keypress_handler = function(e) {
+  var ret = true;
+
+  if (!this.keypress_close_parens(e)) {
+    return false;
+  }
+  if (!this.keypress_tagopen(e)) {
+    return false
+  }
+  if (!this.keypress_tagclose(e)) {
+    return false
+  }
+  return ret;
+}
+
+MarkdownAssistant.prototype.keypress_tagopen = function(e) {
+  var insert_char = String.fromCharCode(e.charCode);
   var elem = this.textarea[0];
+  var prev_char = elem.value.substring(elem.selectionStart - 1, elem.selectionStart);
+
+  if (prev_char == "<" && insert_char == "m") {
+    var tag = "mark";
+    ma.insert(tag);
+    ma.insert(">")
+    ma.save_excursion(function(){
+      ma.insert("</")
+      ma.insert(tag);
+      ma.insert(">")
+    });
+
+    return false;
+  }
+
+  return true
+}
+
+MarkdownAssistant.prototype.keypress_tagclose = function(e) {
+  var insert_char = String.fromCharCode(e.charCode);
+  var elem = this.textarea[0];
+  var prev_char = elem.value.substring(elem.selectionStart - 1, elem.selectionStart);
+
+  if (prev_char == "<" && insert_char == "/") {
+    // TODO: find matching tag
+    var tag = "mark";
+    ma.insert("/"); ma.insert(tag); ma.insert(">")
+
+    return false;
+  }
+
+  return true
+}
+
+
+MarkdownAssistant.prototype.keypress_close_parens = function(e) {
+   var elem = this.textarea[0];
   var prev_char = elem.value.substring(elem.selectionStart - 1, elem.selectionStart);
   var next_char = elem.value.substring(elem.selectionStart, elem.selectionStart + 1);
   var insert_char = String.fromCharCode(e.charCode);
