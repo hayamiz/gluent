@@ -3,6 +3,7 @@ require "bundler"
 Bundler.require :default, (ENV["RACK_ENV"] || "development").to_sym
 require 'sinatra/reloader' if development?
 require "github/markup"
+require 'digest/md5'
 
 class ImagePathFilter < HTML::Pipeline::Filter
   def call
@@ -45,9 +46,20 @@ class Application < Sinatra::Base
       entry_files = entry_files[(per_page * (page_idx - 1)),per_page]
 
       entries = entry_files.map do |filepath|
+        content = File.read(filepath)
+
+        # find title
+        if content.strip =~ /\A#\s*(.+)$/
+          title = $~[1]
+        else
+          title = filepath
+        end
+
         {
+          :title => title,
+          :anchor => Digest::MD5.hexdigest(filepath),
           :filepath => filepath,
-          :body => render_markdown(File.read(filepath)), # GitHub::Markup.render(filepath),
+          :body => render_markdown(content), # GitHub::Markup.render(filepath),
           :git_status => git_status(filepath)
         }
       end
