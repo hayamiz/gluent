@@ -140,7 +140,7 @@ class Application < Sinatra::Base
         f.print params[:content]
       end
 
-      run_git "commit", "-m", "commit from gluent", "--", filepath
+      try_git "commit", "-m", "commit from gluent", "--", filepath
     end
 
     redirect to("/show/#{filepath}")

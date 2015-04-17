@@ -65,6 +65,27 @@ class Application < Sinatra::Base
       stdout
     end
 
+    def try_git(*cmd)
+      cmd = ["git", *cmd]
+      stdout = nil
+      status = nil
+
+      begin
+        status = IO.popen(cmd, "r") do |io|
+          stdout = io.read
+          io.close
+          $?
+        end
+      rescue Errno::ENOENT
+        status = nil
+      end
+
+      if status.nil? || status.exitstatus != 0
+        return false
+      end
+      return true
+    end
+
     def git_status(filepath)
       stdout = run_git "status", "--porcelain", "--", filepath
       stdout.each_line do |line|
