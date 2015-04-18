@@ -13,6 +13,14 @@
 
   <div class="row stretch">
     <div id="edit-input-form" class="five columns">
+      <div id="edit-context-tool">
+	<div class="default btn pretty">
+	  <a href="javascript:ma.mark_selection('yellow');" style="background-color:yellow;"><b>A</b></a>
+	</div>
+	<div class="default btn pretty">
+	  <a href="javascript:ma.mark_selection('coral');" style="background-color:coral;"><b>A</b></a>
+	</div>
+      </div>
       <textarea name="content" id="edit-content" rows=80><%= entry[:source] %></textarea>
     </div>
     <div id="edit-preview-div" class="seven columns">

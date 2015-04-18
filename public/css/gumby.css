@@ -1721,7 +1721,8 @@ div.stretch { max-width: none; }
 div.stretch form { margin: 0; }
 
 div#edit-input-form { overflow: auto; font-size: 14.4px; font-size: 0.9rem; }
-div#edit-input-form textarea { font-size: 14.4px; font-size: 0.9rem; font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace; width: 99%; height: 500px; }
+div#edit-input-form div#edit-context-tool { background: #f2f2f2; border: 1px solid #f2f2f2; border-radious: 3px; }
+div#edit-input-form textarea { font-size: 14.4px; font-size: 0.9rem; font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace; width: 100%; height: 500px; }
 div#edit-input-form textarea.dragover { border: 5px #3085d6 dotted; }
 
 div#js-preview-div { overflow: scroll; }
@@ -1735,3 +1736,5 @@ div.saved { background-color: #3085d6; }
 div.not-saved { background-color: #f6b83f; }
 
 div.error { background-color: #ca3838; }
+
+div#edit-context-tool a { padding: 0 5px; }

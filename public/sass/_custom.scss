@@ -10,6 +10,9 @@ $entry-line-height: $base-line-height * 0.9;
   margin-bottom: 2em;
 }
 
+mark {
+}
+
 div.entry {
   @include font-size($entry-font-size);
   border: solid 1px lightgray;
@@ -151,10 +154,16 @@ div#edit-input-form {
   overflow: auto;
   @include font-size($entry-font-size);
 
+  div#edit-context-tool {
+    background: $default-color;
+    border: 1px solid $default-color;
+    border-radious: 3px;
+  }
+
   textarea {
     @include font-size($entry-font-size);
     font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
-    width: 99%;
+    width: 100%;
     height: 500px;
   }
   textarea.dragover {
@@ -207,4 +216,10 @@ div.not-saved {
 }
 div.error {
   background-color: $danger-color;
+}
+
+div#edit-context-tool {
+  a {
+    padding: 0 5px
+  }
 }

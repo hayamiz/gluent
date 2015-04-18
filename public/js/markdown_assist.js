@@ -67,9 +67,20 @@ MarkdownAssistant.prototype.keypress_tagclose = function(e) {
   var elem = this.textarea[0];
   var prev_char = elem.value.substring(elem.selectionStart - 1, elem.selectionStart);
 
+
   if (prev_char == "<" && insert_char == "/") {
-    // TODO: find matching tag
     var tag = "mark";
+    var tag_start_idx = 0;
+    for (var i = elem.selectionStart - 2; i >= 0; i--) {
+      if (elem.value[i] == "<") {
+        tag_start_idx = i;
+        break;
+      }
+    }
+    m = elem.value.substring(tag_start_idx, elem.selectionStart).match(/<\s*([a-zA-Z]+).*>/);
+    if (m) {
+      tag = m[1];
+    }
     ma.insert("/"); ma.insert(tag); ma.insert(">")
 
     return false;
@@ -78,9 +89,31 @@ MarkdownAssistant.prototype.keypress_tagclose = function(e) {
   return true
 }
 
+MarkdownAssistant.prototype.mark_selection = function(color_class) {
+  if (! color_class) {
+    color_class = "yellow";
+  }
+  var elem = this.textarea[0];
+  var oldselectionStart = elem.selectionStart;
+  var oldselectionEnd = elem.selectionEnd;
+  var selectedText = elem.value.substring(elem.selectionStart, elem.selectionEnd);
+  var text = "<mark style=\"background-color:" + color_class + "\">" + selectedText + "</mark>"
+  var ma = this;
+
+  this.save_excursion(function() {
+    ma.goto_char(elem.selectionStart);
+    ma.delete_chars(selectedText.length);
+    ma.insert(text);
+  });
+
+  elem.selectionStart = oldselectionStart + text.length - selectedText.length - 7;
+  elem.selectionEnd = elem.selectionStart + (oldselectionEnd - oldselectionStart);
+  this.textarea.focus();
+}
+
 
 MarkdownAssistant.prototype.keypress_close_parens = function(e) {
-   var elem = this.textarea[0];
+  var elem = this.textarea[0];
   var prev_char = elem.value.substring(elem.selectionStart - 1, elem.selectionStart);
   var next_char = elem.value.substring(elem.selectionStart, elem.selectionStart + 1);
   var insert_char = String.fromCharCode(e.charCode);
@@ -269,6 +302,7 @@ MarkdownAssistant.prototype.delete_chars = function(n) {
     this.delete_char();
   }
 }
+
 
 MarkdownAssistant.prototype.getContext = function(text) {
   var elem = this.textarea[0];
