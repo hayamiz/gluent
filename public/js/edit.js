@@ -65,7 +65,7 @@ function update_preview() {
 }
 
 function edit_form_keyup_handler(){
-
+  update_title();
   update_selection_info();
   set_preview_scroll();
 
@@ -80,6 +80,13 @@ function update_selection_info(){
   status_bar.set_text_length(content.val().length);
 
   status_bar.update();
+}
+
+function update_title(){
+  var content = $("#edit-content");
+  if (m = content.val().match(/^#\s*(.+)/)) {
+    document.title = "Gluent: " + m[1];
+  }
 }
 
 function edit_form_keydown_handler(){
@@ -337,6 +344,7 @@ $(document).ready(function() {
   do_layout_elems();
   ma = new MarkdownAssistant(textarea);
   textarea.focus();
+  update_title();
   edit_form_keyup_handler();
   edit_form_keydown_handler();
 });
