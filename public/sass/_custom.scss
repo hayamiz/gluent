@@ -60,11 +60,21 @@ div.entry {
   ul {
     list-style: disc outside;
     margin-left: 1.5em;
+
+    li {
+      list-style: disc;
+      @include padding-trailer(0);
+    }
   }
 
-  li {
-    list-style: disc;
-    @include padding-trailer(0);
+  ol {
+    list-style: decimal outside;
+    margin-left: 1.5em;
+
+    li {
+      list-style: decimal;
+      @include padding-trailer(0);
+    }
   }
 
   div.entry-meta {
