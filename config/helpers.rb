@@ -48,14 +48,16 @@ class Application < Sinatra::Base
       stdout = nil
       status = nil
 
-      begin
-        status = IO.popen(cmd, "r") do |io|
-          stdout = io.read
-          io.close
-          $?
+      Dir.chdir($gluent_data_dir) do
+        begin
+          status = IO.popen(cmd, "r") do |io|
+            stdout = io.read
+            io.close
+            $?
+          end
+        rescue Errno::ENOENT
+          status = nil
         end
-      rescue Errno::ENOENT
-        status = nil
       end
 
       if status.nil? || status.exitstatus != 0
