@@ -1,4 +1,4 @@
-<div class="entry trailing-space">
+<div class="entry <% if entry[:commit] %>old<% end %>">
   <div class="entry-meta <% if entry[:git_status] %>uncommitted<% end %>">
     <h2><a href="/show/<%= entry[:filepath] %>"><%= h entry[:filepath] %></a></h2>
     <!-- <div class="small default btn pretty"><a href="/edit/<%= entry[:filepath] %>">Edit</a></div> -->
@@ -12,4 +12,24 @@
   <div>
     <%= entry[:body] %>
   </div>
+</div>
+<div class="git-history">
+  <% entry[:git_log].group_by{|commit| commit.date.to_i / (3600 * 24)}.each do |_,commits| %>
+    <% commits = commits.sort_by{|commit| - commit.date.to_f} %>
+    <div class="day-commits">
+      <h4>Commits on <%=h commits.first.date.strftime("%Y-%m-%d") %></h4>
+      <% commits.sort_by{|commit| - commit.date.to_f}.each do |commit| %>
+	<div class="commit <% if entry[:commit] == commit.sha %>current-commit<% end %>">
+	  <div>
+	    <a href="/show/<%=h entry[:filepath] %>?commit=<%=h commit.sha %>" class="info label gitsha"><%= commit.sha[0..7] %></a>
+	    <span class="default label"><%= commit.date.strftime("%H:%M:%S") %></span>
+	    <span class="default label"><%= commit.author.name %></span>
+	  </div>
+	  <div class="commit-content">
+	    <%=h commit.message %>
+	  </div>
+	</div>
+      <% end %>
+    </div>
+  <% end %>
 </div>

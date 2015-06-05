@@ -1705,8 +1705,17 @@ div.entry div.entry-meta { text-align: right; background-color: #3085d6; padding
 div.entry div.entry-meta h2 { font-size: 30px; display: inline; }
 div.entry div.entry-meta h2 a { color: white; }
 div.entry div.uncommitted { background-color: #f6b83f; }
+div.entry div.old { background-color: oldlace; }
 div.entry code { padding: 2.88px; border-radius: 3px; background-color: #f2f2f2; font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace; }
 div.entry pre code { display: block; padding: 8px 15px; margin-bottom: 13px; overflow-x: auto; }
+
+div.git-history { background: gray; padding: 15px; }
+div.git-history div.day-commits { border-left: 2px solid lightgray; border-bottom: 2px solid lightgray; border-radius: 5px; padding: 10px; padding-left: 20px; margin-bottom: 10px; background: white; }
+div.git-history div.day-commits h4 { font-size: 18px; }
+div.git-history div.day-commits div.commit { border: 1px solid #f2f2f2; padding: 5px; background: white; }
+div.git-history div.day-commits div.commit span.gitsha { font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace; }
+div.git-history div.day-commits div.current-commit { border: 4px solid black; }
+div.git-history div.day-commits:hover { background: ghostwhite; }
 
 /* Styles for /index */
 ul.pages { text-align: center; }

@@ -1,3 +1,7 @@
+require 'time'
+require 'git'
+require 'pry'
+
 class Application < Sinatra::Base
   helpers do
     def find_template(views, name, engine, &block)
@@ -97,6 +101,20 @@ class Application < Sinatra::Base
       end
 
       nil
+    end
+
+    def git()
+      if $git_base.nil?
+        Dir.chdir($gluent_data_dir) do
+          $git_base = Git.open(".", :log => Logger.new(STDERR))
+        end
+      end
+
+      $git_base
+    end
+
+    def git_log(filepath)
+      git.log.path(filepath)
     end
 
     def available_filepath(orig_filename, mime_type)

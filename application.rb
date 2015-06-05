@@ -89,6 +89,12 @@ class Application < Sinatra::Base
   end
 
   get "/show/*" do |filepath|
+    if params[:commit]
+      commit = params[:commit]
+    else
+      commit = nil
+    end
+
     # TODO: sanitize filepath
     entry = nil
     status = nil
@@ -98,10 +104,18 @@ class Application < Sinatra::Base
         pass
       end
 
+      if commit
+        content = git.object("#{commit}:#{filepath}").contents
+      else
+        content = File.read(filepath)
+      end
+
       entry = {
         :filepath => filepath,
-        :body => render_markdown(File.read(filepath)), # GitHub::Markup.render(filepath),
-        :git_status => git_status(filepath)
+        :body => render_markdown(content), # GitHub::Markup.render(filepath),
+        :git_status => git_status(filepath),
+        :git_log => git_log(filepath),
+        :commit => commit,
       }
     end
     erb :show, :locals => {:entry => entry}
