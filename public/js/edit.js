@@ -248,7 +248,7 @@ function set_status(cssclass, msg) {
 function save_content() {
   var saving_content = cur_content;
   console.debug("[" + (new Date()) + "] save_content");
-  $.post("/edit/" + entry_filepath, { content: saving_content },
+  $.post("/edit/" + entry_filepath, { content: saving_content, do_commit: false },
     function(){
       // success
       last_saved_content = saving_content;

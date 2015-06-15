@@ -97,10 +97,6 @@ div.entry {
     background-color: $warning-color;
   }
 
-  div.old {
-    background-color: oldlace;
-  }
-
   code {
     padding: $entry-font-size * 0.2;
     border-radius: 3px;
@@ -115,6 +111,11 @@ div.entry {
     overflow-x: auto;
   }
 }
+
+div.old-entry {
+  background-color: oldlace;
+}
+
 
 div.git-history {
   background: gray;
@@ -141,7 +142,33 @@ div.git-history {
       div.commit-content {
       }
 
-      span.gitsha {
+      div.commit-diff {
+        border: 1px black solid;
+        background: white;
+        font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
+        font-size: $base-font-size * 0.8;
+
+        pre {
+          line-height: 1.1em;
+        }
+
+        span.diff-metadata {
+          color: gray;
+          background: #f0f0f0;
+        }
+
+        span.add-line {
+          background: lightgreen;
+          width: 100%;
+          color: green;
+        }
+        span.del-line {
+          background: lightpink;
+          color: red;
+        }
+      }
+
+      .gitsha {
         font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
       }
     }

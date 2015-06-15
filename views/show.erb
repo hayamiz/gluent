@@ -1,4 +1,4 @@
-<div class="entry <% if entry[:commit] %>old<% end %>">
+<div class="entry <% if entry[:commit] %>old-entry<% end %>">
   <div class="entry-meta <% if entry[:git_status] %>uncommitted<% end %>">
     <h2><a href="/show/<%= entry[:filepath] %>"><%= h entry[:filepath] %></a></h2>
     <!-- <div class="small default btn pretty"><a href="/edit/<%= entry[:filepath] %>">Edit</a></div> -->
@@ -27,6 +27,9 @@
 	  </div>
 	  <div class="commit-content">
 	    <%=h commit.message %>
+	  </div>
+	  <div class="commit-diff">
+<pre><%= diff_pretty_print(commit.diff_parent.patch) %></pre>
 	  </div>
 	</div>
       <% end %>

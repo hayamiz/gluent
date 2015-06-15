@@ -117,6 +117,9 @@ class Application < Sinatra::Base
       git.log.path(filepath)
     end
 
+    def git_commit(filepath)
+    end
+
     def available_filepath(orig_filename, mime_type)
       orig_filename = File.basename(orig_filename)
 
@@ -152,6 +155,17 @@ class Application < Sinatra::Base
 
         idx += 1
       end
+    end
+
+    def diff_pretty_print(patch)
+      patch = patch.gsub(/^(diff.*)$/, "<span class=\"diff-metadata\">\\1</span>")
+      patch = patch.gsub(/^(index.*)$/, "<span class=\"diff-metadata\">\\1</span>")
+      patch = patch.gsub(/^(deleted.*)$/, "<span class=\"diff-metadata\">\\1</span>")
+      patch = patch.gsub(/^(Binary.*)$/, "<span class=\"diff-metadata\">\\1</span>")
+      patch = patch.gsub(/^(@@.*)$/, "<span class=\"diff-metadata\">\\1</span>")
+
+      patch = patch.gsub(/^(\+.*)$/, "<span class=\"add-line\">\\1</span>")
+      patch = patch.gsub(/^(-.*)$/, "<span class=\"del-line\">\\1</span>")
     end
   end
 end

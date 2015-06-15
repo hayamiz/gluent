@@ -147,6 +147,11 @@ class Application < Sinatra::Base
 
   post "/edit/:filepath" do |filepath|
     params[:content].gsub!(/\r\n/, "\n")
+    if params[:do_commit].nil?
+      do_commit = false
+    else
+      do_commit = params[:do_commit]
+    end
 
     # TODO  sanitize filepath
     Dir.chdir($gluent_data_dir) do
@@ -154,7 +159,10 @@ class Application < Sinatra::Base
         f.print params[:content]
       end
 
-      try_git "commit", "-m", "commit from gluent", "--", filepath
+      if do_commit
+        try_git "add", filepath
+        try_git "commit", "-m", "commit from gluent"
+      end
     end
 
     redirect to("/show/#{filepath}")
