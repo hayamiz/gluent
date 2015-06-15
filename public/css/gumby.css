@@ -1714,7 +1714,7 @@ div.git-history { background: gray; padding: 15px; }
 div.git-history div.day-commits { border-left: 2px solid lightgray; border-bottom: 2px solid lightgray; border-radius: 5px; padding: 10px; padding-left: 20px; margin-bottom: 10px; background: white; }
 div.git-history div.day-commits h4 { font-size: 18px; }
 div.git-history div.day-commits div.commit { border: 1px solid #f2f2f2; padding: 5px; background: white; }
-div.git-history div.day-commits div.commit div.commit-diff { border: 1px black solid; background: white; font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace; font-size: 12.8px; }
+div.git-history div.day-commits div.commit div.commit-diff { border: 1px black solid; background: white; font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace; font-size: 12.8px; overflow-x: scroll; }
 div.git-history div.day-commits div.commit div.commit-diff pre { line-height: 1.1em; }
 div.git-history div.day-commits div.commit div.commit-diff span.diff-metadata { color: gray; background: #f0f0f0; }
 div.git-history div.day-commits div.commit div.commit-diff span.add-line { background: lightgreen; width: 100%; color: green; }

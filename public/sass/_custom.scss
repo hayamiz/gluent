@@ -147,6 +147,7 @@ div.git-history {
         background: white;
         font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
         font-size: $base-font-size * 0.8;
+        overflow-x: scroll;
 
         pre {
           line-height: 1.1em;
