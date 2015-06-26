@@ -16,3 +16,7 @@ gem "sass"
 gem "coffee-script"
 gem "git"
 gem "pry"
+
+group :test do
+  gem "test-unit"
+end
