@@ -1,4 +1,6 @@
 
+module Gluent
+
 module RenderHelper
   def find_template(views, name, engine, &block)
     _, folder = views.detect { |k,v| engine == Tilt[k] }
@@ -44,3 +46,5 @@ module RenderHelper
     Rack::Utils.escape_html(text)
   end
 end
+
+end # Gluent
