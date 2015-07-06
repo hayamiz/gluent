@@ -1372,7 +1372,7 @@ img { -ms-interpolation-mode: bicubic; }
 .btn.secondary:active, .skiplink.secondary:active { background: #337f46; }
 .btn.default, .skiplink.default { background: #f2f2f2; border: 1px solid #f2f2f2; color: #555555; border: 1px solid #f2f2f2; }
 .btn.default:hover, .skiplink.default:hover { background: white; }
-.btn.default:active, .skiplink.default:active { background: #d8d8d8; }
+.btn.default:active, .skiplink.default:active { background: #d9d9d9; }
 .btn.default:hover, .skiplink.default:hover { border: 1px solid #e5e5e5; }
 .btn.default a, .btn.default input, .btn.default button, .skiplink.default a, .skiplink.default input, .skiplink.default button { color: #555555; }
 .btn.info, .skiplink.info { background: #4a4d50; border: 1px solid #4a4d50; }
@@ -1434,13 +1434,13 @@ form label.inline { display: inline-block; padding-right: 20px; }
 form dt { margin: 0; }
 form textarea { height: 150px; }
 form ul, form ul li { margin-left: 0; list-style-type: none; }
-form fieldset { border-width: 0.0625em; border-style: solid; padding: 1.5625em; border-color: #d8d8d8; margin: 18px 0; }
+form fieldset { border-width: 0.0625em; border-style: solid; padding: 1.5625em; border-color: #d9d9d9; margin: 18px 0; }
 form fieldset legend { padding: 5px 10px; }
 
 .field { position: relative; max-width: 100%; margin-bottom: 10px; vertical-align: middle; font-size: 16px; overflow: hidden; }
 .field.metro, .field .metro { -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0; }
 .field input, .field input[type="*"], .field textarea { max-width: 100%; width: 100%; padding: 0; margin: 0; border: none; outline: none; resize: none; -webkit-appearance: none; font-family: "Open Sans"; font-weight: 300; font-size: 16px; font-size: 1rem; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
-.field .input { position: relative; padding: 0 10px; background: #fff; border: 1px solid #d8d8d8; height: 36px; line-height: 34px; font-size: 16px; font-size: 1rem; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; }
+.field .input { position: relative; padding: 0 10px; background: #fff; border: 1px solid #d9d9d9; height: 36px; line-height: 34px; font-size: 16px; font-size: 1rem; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; }
 .field .input.search { height: 36px; line-height: 34px; -moz-border-radius: 1000px; -webkit-border-radius: 1000px; border-radius: 1000px; padding-right: 0; }
 .field .input.textarea { height: auto; }
 
@@ -1489,7 +1489,7 @@ label + .xnarrow:last-child, label + .narrow:last-child, label + .normal:last-ch
 
 .prepend .btn a, .prepend .btn input, .prepend .btn button, .append .btn a, .append .btn input, .append .btn button { padding: 0 12px; }
 
-.prepend .adjoined, .append .adjoined { padding: 0 10px 0 10px; background: #f2f2f2; border: 1px solid #d8d8d8; font-family: "Open Sans"; font-weight: 600; color: #555555; font-size: 16px; font-size: 1rem; height: 36px; line-height: 34px; }
+.prepend .adjoined, .append .adjoined { padding: 0 10px 0 10px; background: #f2f2f2; border: 1px solid #d9d9d9; font-family: "Open Sans"; font-weight: 600; color: #555555; font-size: 16px; font-size: 1rem; height: 36px; line-height: 34px; }
 
 .prepend .adjoined, .prepend .btn { margin-right: -1px; }
 
@@ -1729,6 +1729,9 @@ ul.pages li { display: inline; }
 ul.pages li a { border: solid 1px #3085d6; background: #3085d6; color: white; padding: 5px 8px; }
 ul.pages li a:hover { color: #3085d6; background: white; }
 ul.pages li a.current-page { color: #3085d6; background: white; }
+
+nav#navi-bar { font-size: 16px; line-height: 24px; text-align: left; padding: 0.3em 1em; display: block; width: 100%; background-color: #3085d6; }
+nav#navi-bar a { color: white; }
 
 /* Styles for /create */
 input.create { font-size: 32px; }

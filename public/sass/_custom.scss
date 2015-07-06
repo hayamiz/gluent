@@ -212,6 +212,21 @@ ul.pages {
   }
 }
 
+nav#navi-bar {
+  font-size: $base-font-size;
+  line-height: $base-font-size * 1.5;
+  text-align: left;
+  padding: 0.3em 1em;
+
+  display: block;
+  width: 100%;
+  background-color: $primary-color;
+
+  a {
+    color: white;
+  }
+}
+
 
 /*
  * Styles for /create
