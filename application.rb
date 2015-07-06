@@ -4,6 +4,8 @@ Bundler.require :default, (ENV["RACK_ENV"] || "development").to_sym
 require 'sinatra/reloader' if development?
 require "github/markup"
 require 'digest/md5'
+require 'fileutils'
+require 'uri'
 
 class ImagePathFilter < HTML::Pipeline::Filter
   def call

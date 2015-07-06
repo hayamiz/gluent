@@ -59,6 +59,12 @@ class Application < Sinatra::Base
       if File.exists?(filepath)
         halt "#{h filepath} already exists!"
       end
+
+      dir = File.dirname(filepath)
+      unless File.directory?(dir)
+        FileUtils.mkdir_p(dir)
+      end
+
       File.open(filepath, "w").close
 
       run_git "add", filepath
@@ -112,7 +118,7 @@ class Application < Sinatra::Base
     send_file File.expand_path(filepath, $gluent_data_dir)
   end
 
-  get "/edit/:filepath" do |filepath|
+  get "/edit/*" do |filepath|
     # TODO sanitize filepath
     entry = nil
     Dir.chdir($gluent_data_dir) do
@@ -124,12 +130,16 @@ class Application < Sinatra::Base
     erb :edit, :layout => :edit_layout, :locals => {:entry => entry}
   end
 
-  post "/edit/:filepath" do |filepath|
+  post "/edit/*" do |filepath|
     params[:content].gsub!(/\r\n/, "\n")
     if params[:do_commit].nil?
       do_commit = false
     else
-      do_commit = params[:do_commit]
+      if params[:do_commit] == "true"
+        do_commit = true
+      else
+        do_commit = false
+      end
     end
 
     # TODO  sanitize filepath
