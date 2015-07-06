@@ -6,6 +6,7 @@
 
 <hr />
 
+<!-- pagination -->
 <ul class="pages">
   <% (1..num_pages).each do |page| %>
     <% if page == page_idx %>
@@ -16,12 +17,22 @@
   <% end %>
 </ul>
 
+<!-- List of file titles (or file pathes) -->
 <ul>
   <% entries.each do |entry| %>
-    <li><a href="#<%= h entry[:anchor] %>"><%= h entry[:title] %></a></li>
+    <li>
+      <a href="#<%= h entry[:anchor] %>">
+	<% if entry[:title] == entry[:filepath] %>
+	  <%= h entry[:title] %>
+	<% else %>
+	  <%= h entry[:title] %> (<%= h entry[:filepath] %>)
+	<% end %>
+      </a>
+    </li>
   <% end %>
 </ul>
 
+<!-- List of entries -->
 <% entries.each do |entry| %>
   <div class="entry trailing-space" id="<%= h entry[:anchor] %>">
     <div class="entry-meta <% if entry[:git_status] %>uncommitted<% end %>">
