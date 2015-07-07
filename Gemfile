@@ -17,6 +17,10 @@ gem "coffee-script"
 gem "git"
 gem "pry"
 
+group :development do
+  gem "shotgun"
+end
+
 group :test do
   gem "test-unit"
 end
