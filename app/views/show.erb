@@ -1,18 +1,5 @@
-<div class="entry <% if entry[:commit] %>old-entry<% end %>">
-  <div class="entry-meta <% if entry[:git_status] %>uncommitted<% end %>">
-    <h2><a href="/show/<%= entry[:filepath] %>"><%= h entry[:filepath] %></a></h2>
-    <!-- <div class="small default btn pretty"><a href="/edit/<%= entry[:filepath] %>">Edit</a></div> -->
-    <div class="small default btn pretty"><a href="javascript:void(0);" onclick="javascript:window.open('/edit/<%= entry[:filepath] %>', '', 'width=1440,height=800');">Edit</a></div>
-    <% if entry[:git_status] %>
-      <div class="small danger btn pretty">
-	<a href="/commit/<%= entry[:filepath] %>">Commit</a>
-      </div>
-    <% end %>
-  </div>
-  <div>
-    <%= entry[:body] %>
-  </div>
-</div>
+<%= erb :_entry, :locals => {:entry => entry} %>
+
 <div class="git-history">
   <% entry[:git_log].group_by{|commit| commit.date.to_i / (3600 * 24)}.each do |_,commits| %>
     <% commits = commits.sort_by{|commit| - commit.date.to_f} %>

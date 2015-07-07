@@ -34,19 +34,6 @@
 
 <!-- List of entries -->
 <% entries.each do |entry| %>
-  <div class="entry trailing-space" id="<%= h entry[:anchor] %>">
-    <div class="entry-meta <% if entry[:git_status] %>uncommitted<% end %>">
-      <h2><a href="/show/<%= entry[:filepath] %>"><%= h entry[:title] %></a></h2>
-      <!-- <div class="small default btn pretty"><a href="/edit/<%= entry[:filepath] %>">Edit</a></div> -->
-      <div class="small default btn pretty"><a href="javascript:void(0);" onclick="javascript:window.open('/edit/<%= entry[:filepath] %>', '', 'width=1440,height=800');">Edit</a></div>
-      <% if entry[:git_status] %>
-	<div class="small danger btn pretty">
-	  <a href="/commit/<%= entry[:filepath] %>">Commit</a>
-	</div>
-      <% end %>
-    </div>
-    <div>
-      <%= entry[:body] %>
-    </div>
-  </div>
+  <%= erb :_entry, :locals => {:entry => entry} %>
+  <div style="height: 2em;"></div>
 <% end %>

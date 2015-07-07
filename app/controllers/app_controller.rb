@@ -6,6 +6,28 @@ class Application < Sinatra::Base
   set :root, File.expand_path("../..", __FILE__)
   set :public_folder, File.expand_path("../../../public", __FILE__)
 
+  helpers do
+    def make_entry(filepath, source, commit = nil)
+      # find title
+      if source.strip =~ /\A#\s*(.+)$/
+        title = $~[1]
+      else
+        title = filepath
+      end
+
+      {
+        :title => title,
+        :anchor => Digest::MD5.hexdigest(filepath),
+        :filepath => filepath,
+        :source => source,
+        :body => render_markdown(source), # GitHub::Markup.render(filepath),
+        :git_status => git_status(filepath),
+        :git_log => git_log(filepath),
+        :commit => commit
+      }
+    end
+  end
+
   get "/" do
     per_page = 20
     entries = []
@@ -27,20 +49,7 @@ class Application < Sinatra::Base
       entries = entry_files.map do |filepath|
         content = File.read(filepath)
 
-        # find title
-        if content.strip =~ /\A#\s*(.+)$/
-          title = $~[1]
-        else
-          title = filepath
-        end
-
-        {
-          :title => title,
-          :anchor => Digest::MD5.hexdigest(filepath),
-          :filepath => filepath,
-          :body => render_markdown(content), # GitHub::Markup.render(filepath),
-          :git_status => git_status(filepath)
-        }
+        make_entry(filepath, content)
       end
     end
 
@@ -95,13 +104,7 @@ class Application < Sinatra::Base
         content = File.read(filepath)
       end
 
-      entry = {
-        :filepath => filepath,
-        :body => render_markdown(content), # GitHub::Markup.render(filepath),
-        :git_status => git_status(filepath),
-        :git_log => git_log(filepath),
-        :commit => commit,
-      }
+      entry = make_entry(filepath, content, commit)
     end
     erb :show, :locals => {:entry => entry}
   end

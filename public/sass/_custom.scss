@@ -93,6 +93,22 @@ div.entry {
     }
   }
 
+  section.entry-body {
+
+  }
+
+  section.entry-source {
+    display: none;
+
+    textarea {
+      @include font-size($entry-font-size);
+      font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
+      width: 100%;
+      height: 30em;
+      background: lightgray;
+    }
+  }
+
   div.uncommitted {
     background-color: $warning-color;
   }
