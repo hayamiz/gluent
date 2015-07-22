@@ -3,3 +3,5 @@
 /db/groonga.*
 /config/groonga.yml
 /thin-config.yml
+/tmp/pids/thin.*.pid
+/config/gluent.yml
