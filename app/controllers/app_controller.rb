@@ -63,7 +63,7 @@ class Application < Sinatra::Base
     end
 
     # TODO: sanitize filepath
-    entry = Entry.find(filepath, commit)
+    entry = Entry.get(filepath, commit)
 
     erb :show, :locals => {:entry => entry}
   end
