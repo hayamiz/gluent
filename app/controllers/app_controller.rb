@@ -1,4 +1,6 @@
 
+module Gluent
+
 class Application < Sinatra::Base
   register Sinatra::R18n
   register Sinatra::Partial
@@ -7,25 +9,6 @@ class Application < Sinatra::Base
   set :public_folder, File.expand_path("../../../public", __FILE__)
 
   helpers do
-    def make_entry(filepath, source, commit = nil)
-      # find title
-      if source.strip =~ /\A#\s*(.+)$/
-        title = $~[1]
-      else
-        title = filepath
-      end
-
-      {
-        :title => title,
-        :anchor => Digest::MD5.hexdigest(filepath),
-        :filepath => filepath,
-        :source => source,
-        :body => render_markdown(source), # GitHub::Markup.render(filepath),
-        :git_status => git_status(filepath),
-        :git_log => git_log(filepath),
-        :commit => commit
-      }
-    end
   end
 
   get "/" do
@@ -34,24 +17,14 @@ class Application < Sinatra::Base
     num_pages = 1
     page_idx = (params[:page] || 1).to_i # 1-origin
 
-    Dir.chdir($gluent_data_dir) do
-      entry_files = Dir.glob("**/*.md").sort_by do |filepath|
-        File::Stat.new(filepath).mtime
-      end.reverse
+    entries = Entry.all
 
-      num_pages = (entry_files.size - 1) / per_page + 1
-      if page_idx > num_pages
-        page_idx = num_pages
-      end
-
-      entry_files = entry_files[(per_page * (page_idx - 1)),per_page]
-
-      entries = entry_files.map do |filepath|
-        content = File.read(filepath)
-
-        make_entry(filepath, content)
-      end
+    num_pages = (entries.size - 1) / per_page + 1
+    if page_idx > num_pages
+      page_idx = num_pages
     end
+
+    entries = entries[(per_page * (page_idx - 1)), per_page]
 
     erb :index, :locals => {:entries => entries, :num_pages => num_pages, :page_idx => page_idx}
   end
@@ -90,22 +63,8 @@ class Application < Sinatra::Base
     end
 
     # TODO: sanitize filepath
-    entry = nil
-    status = nil
+    entry = Entry.find(filepath, commit)
 
-    Dir.chdir($gluent_data_dir) do
-      if ! File.exists?(filepath)
-        pass
-      end
-
-      if commit
-        content = git.object("#{commit}:#{filepath}").contents
-      else
-        content = File.read(filepath)
-      end
-
-      entry = make_entry(filepath, content, commit)
-    end
     erb :show, :locals => {:entry => entry}
   end
 
@@ -229,3 +188,5 @@ class Application < Sinatra::Base
     erb :sandbox
   end
 end
+
+end # module Gluent

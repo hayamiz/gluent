@@ -2,12 +2,12 @@
 module Gluent
 
 module RenderHelper
-  def find_template(views, name, engine, &block)
-    _, folder = views.detect { |k,v| engine == Tilt[k] }
-    folder ||= views[:default]
-    p [settings.public_folder]
-    super("#{settings.root}/#{folder}", name, engine, &block)
-  end
+#   def find_template(views, name, engine, &block)
+#     _, folder = views.detect { |k,v| engine == Tilt[k] }
+#     folder ||= views[:default]
+#     p [settings.public_folder]
+#     super("#{settings.root}/#{folder}", name, engine, &block)
+#   end
 
   def stylesheets
     %w[gumby style].map do |path|
@@ -36,14 +36,13 @@ module RenderHelper
     end.join "\n"
   end
 
-  def render_markdown(src)
-    pipe = HTML::Pipeline.new [HTML::Pipeline::MarkdownFilter, ImagePathFilter]
-
-    pipe.call(src)[:output].to_s
-  end
-
   def h(text)
     Rack::Utils.escape_html(text)
+  end
+
+  def render_markdown(src)
+    pipe = HTML::Pipeline.new [HTML::Pipeline::MarkdownFilter, ImagePathFilter]
+    pipe.call(src)[:output].to_s
   end
 end
 

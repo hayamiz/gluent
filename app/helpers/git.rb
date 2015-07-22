@@ -61,7 +61,7 @@ module GitHelper
   def git()
     if $git_base.nil?
       Dir.chdir($gluent_data_dir) do
-        $git_base = Git.open(".", :log => Logger.new(STDERR))
+        $git_base = Git.open(".", :log => ::Logger.new(STDERR))
       end
     end
 

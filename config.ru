@@ -1,2 +1,2 @@
 require './application'
-run Application.new
+run Gluent::Application.new

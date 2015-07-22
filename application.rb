@@ -6,6 +6,8 @@ require "github/markup"
 require 'digest/md5'
 require 'fileutils'
 require 'uri'
+require 'pathname'
+require 'logger'
 
 class ImagePathFilter < HTML::Pipeline::Filter
   def call
@@ -25,11 +27,15 @@ class ImagePathFilter < HTML::Pipeline::Filter
   end
 end
 
-Dir[File.dirname(__FILE__) + "/app/controllers/*.rb"].each do |file|
+Dir[File.dirname(__FILE__) + "/app/helpers/*.rb"].each do |file|
   require file
 end
 
-Dir[File.dirname(__FILE__) + "/app/helpers/*.rb"].each do |file|
+Dir[File.dirname(__FILE__) + "/app/models/*.rb"].each do |file|
+  require file
+end
+
+Dir[File.dirname(__FILE__) + "/app/controllers/*.rb"].each do |file|
   require file
 end
 
