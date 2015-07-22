@@ -7,6 +7,8 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    archive-zip (0.7.0)
+      io-like (~> 0.3.0)
     backports (3.6.4)
     charlock_holmes (0.7.3)
     coderay (1.1.0)
@@ -27,10 +29,19 @@ GEM
       rugged (~> 0.23.0b1)
     github-markdown (0.6.8)
     github-markup (1.3.3)
+    gqtp (1.0.6)
+    groonga (1.0.0)
+      rroonga
+    groonga-client (0.1.7)
+      gqtp (>= 1.0.4)
+      groonga-command (>= 1.0.8)
+    groonga-command (1.1.2)
+      json
     html-pipeline (1.11.0)
       activesupport (>= 2)
       nokogiri (~> 1.4)
     i18n (0.7.0)
+    io-like (0.3.0)
     json (1.8.3)
     method_source (0.8.2)
     mime-types (2.6.1)
@@ -39,6 +50,7 @@ GEM
     multi_json (1.11.1)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
+    pkg-config (1.1.6)
     power_assert (0.2.3)
     pry (0.10.1)
       coderay (~> 1.1.0)
@@ -50,6 +62,11 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
+    rroonga (5.0.4)
+      archive-zip
+      groonga-client (>= 0.0.3)
+      json
+      pkg-config
     rugged (0.23.0b2)
     sass (3.4.15)
     shotgun (0.9.1)
@@ -78,7 +95,7 @@ GEM
       eventmachine (~> 1.0)
       rack (~> 1.0)
     thread_safe (0.3.5)
-    tilt (2.0.1)
+    tilt (1.4.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
 
@@ -92,6 +109,7 @@ DEPENDENCIES
   github-linguist
   github-markdown
   github-markup
+  groonga
   html-pipeline
   pry
   sass
@@ -102,3 +120,7 @@ DEPENDENCIES
   sinatra-r18n
   test-unit
   thin
+  tilt (~> 1.4.1)
+
+BUNDLED WITH
+   1.10.5

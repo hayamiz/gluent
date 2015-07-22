@@ -1,1 +1,5 @@
 .sass-cache/
+/db/groonga
+/db/groonga.*
+/config/groonga.yml
+/thin-config.yml
