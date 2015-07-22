@@ -62,3 +62,11 @@ namespace :thin do
     sh "thin -s 1 -C thin-config.yml -R config.ru restart"
   end
 end
+
+namespace :shotgun do
+  desc "Start shotgun server."
+  task :start => ["thin:stop", "thin:load_env"] do
+    thin_config = YAML.load_file("./thin-config.yml")
+    sh "shotgun config.ru -p #{thin_config["port"]}"
+  end
+end
