@@ -2,6 +2,8 @@
 module Gluent
 
 class Entry
+  include GitHelper
+
   class << self
     include GitHelper
     include RenderHelper
@@ -39,18 +41,18 @@ class Entry
         title = path
       end
 
-      {
-        :title => title,
-        :anchor => Digest::MD5.hexdigest(path),
-        :path => path,
-        :content => content,
-        :body => render_markdown(content), # GitHub::Markup.render(path),
-        :git_status => git_status(path),
-        :git_log => git_log(path),
-        :commit => commit,
-        :mtime => mtime,
-        :filepath => path
-      }
+      self.new({
+                 :title => title,
+                 :anchor => Digest::MD5.hexdigest(path),
+                 :path => path,
+                 :content => content,
+                 :body => render_markdown(content), # GitHub::Markup.render(path),
+                 :git_status => git_status(path),
+                 :git_log => git_log(path),
+                 :commit => commit,
+                 :mtime => mtime,
+                 :filepath => path
+               })
     end
 
     private
@@ -77,10 +79,56 @@ class Entry
       :mtime => nil,
       :filepath => nil
     }.merge(attrs).symbolize_keys
+
+    if ! @attributes[:filepath]
+      raise ArgumentError.new("Entry cannot be initialized without filepath")
+    end
+
+    @dirty = false
   end
 
   def [](key)
     @attributes[key.to_sym]
+  end
+
+  def []=(key, val)
+    @dirty = true
+    key = key.to_sym
+    if key == :content
+      val = val.gsub(/\r\n/, "\n")
+    end
+    @attributes[key.to_sym] = val
+  end
+
+  def save(do_commit = false)
+    unless @dirty
+      return true
+    end
+
+    Dir.chdir($gluent_data_dir) do
+      File.open(self[:filepath], "w") do |f|
+        f.print(self[:content])
+      end
+
+      if do_commit
+        try_git "add", self[:filepath]
+        try_git "commit", "-m", "commit from gluent"
+      end
+    end
+
+    @dirty = false
+
+    update_groonga_record
+
+    true
+  end
+
+  def update_groonga_record
+    Groonga["Entries"].add(self[:filepath],
+                           path: self[:filepath],
+                           title: self[:title],
+                           body: self[:content],
+                           mtime: self[:mtime])
   end
 end
 

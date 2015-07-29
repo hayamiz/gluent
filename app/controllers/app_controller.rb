@@ -93,7 +93,8 @@ class Application < Sinatra::Base
   end
 
   post "/edit/*" do |filepath|
-    params[:content].gsub!(/\r\n/, "\n")
+    # TODO  sanitize filepath
+
     if params[:do_commit].nil?
       do_commit = false
     else
@@ -104,17 +105,9 @@ class Application < Sinatra::Base
       end
     end
 
-    # TODO  sanitize filepath
-    Dir.chdir($gluent_data_dir) do
-      File.open(filepath, "w") do |f|
-        f.print params[:content]
-      end
-
-      if do_commit
-        try_git "add", filepath
-        try_git "commit", "-m", "commit from gluent"
-      end
-    end
+    entry = Entry.get(filepath)
+    entry[:content] = params[:content]
+    entry.save(do_commit)
 
     redirect to("/show/#{filepath}")
   end
