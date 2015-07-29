@@ -105,6 +105,7 @@ class Entry
       try_git "add", self[:filepath]
       try_git "commit", "-m", "commit from gluent"
     end
+    update_groonga_record
   end
 
   def save(do_commit = false)
@@ -130,11 +131,13 @@ class Entry
   end
 
   def update_groonga_record
-    Groonga["Entries"].add(self[:filepath],
-                           path: self[:filepath],
-                           title: self[:title],
-                           body: self[:content],
-                           mtime: self[:mtime])
+    Dir.chdir($top_dir) do
+      Groonga["Entries"].add(self[:filepath],
+                             path: self[:filepath],
+                             title: self[:title],
+                             body: self[:content],
+                             mtime: self[:mtime])
+    end
   end
 end
 
