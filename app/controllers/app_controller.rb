@@ -164,14 +164,14 @@ class Application < Sinatra::Base
     uploaded_files.to_json
   end
 
-  get "/commit/:filepath" do |filepath|
+  get "/commit/*" do |filepath|
     # TODO: sanitize filepath
     Dir.chdir($gluent_data_dir) do
       if ! File.exists?(filepath)
         halt "no such file: #{filepath}"
       end
-
-      run_git "commit", "-m", "commit from gluent", "--", filepath
+      entry = Entry.get(filepath)
+      entry.commit
     end
 
     redirect to("/show/#{filepath}")

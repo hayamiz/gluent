@@ -100,6 +100,13 @@ class Entry
     @attributes[key.to_sym] = val
   end
 
+  def commit
+    Dir.chdir($gluent_data_dir) do
+      try_git "add", self[:filepath]
+      try_git "commit", "-m", "commit from gluent"
+    end
+  end
+
   def save(do_commit = false)
     unless @dirty
       return true
@@ -111,8 +118,7 @@ class Entry
       end
 
       if do_commit
-        try_git "add", self[:filepath]
-        try_git "commit", "-m", "commit from gluent"
+        self.commit
       end
     end
 
