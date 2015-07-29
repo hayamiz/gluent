@@ -21,6 +21,7 @@ gem "rroonga", require: "groonga"
 
 group :development do
   gem "shotgun"
+  gem "pry-byebug"
 end
 
 group :test do

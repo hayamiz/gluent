@@ -10,12 +10,15 @@ GEM
     archive-zip (0.7.0)
       io-like (~> 0.3.0)
     backports (3.6.4)
+    byebug (5.0.0)
+      columnize (= 0.9.0)
     charlock_holmes (0.7.3)
     coderay (1.1.0)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
     coffee-script-source (1.9.1.1)
+    columnize (0.9.0)
     daemons (1.2.3)
     escape_utils (1.1.0)
     eventmachine (1.0.7)
@@ -54,6 +57,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-byebug (3.2.0)
+      byebug (~> 5.0)
+      pry (~> 0.10)
     r18n-core (2.0.4)
     rack (1.6.4)
     rack-protection (1.5.3)
@@ -109,6 +115,7 @@ DEPENDENCIES
   github-markup
   html-pipeline
   pry
+  pry-byebug
   rroonga
   sass
   shotgun
