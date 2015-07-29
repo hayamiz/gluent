@@ -1,8 +1,12 @@
 <% key = entry[:anchor] %>
 <div class="entry <% if entry[:commit] %>old-entry<% end %>" id="<%= h entry[:anchor] %>">
   <div class="entry-meta <% if entry[:git_status] %>uncommitted<% end %>">
-    <h2><a href="/show/<%= entry[:filepath] %>"><%= h entry[:filepath] %></a></h2>
-    <!-- <div class="small default btn pretty"><a href="/edit/<%= entry[:filepath] %>">Edit</a></div> -->
+    <h2><a href="/show/<%= entry[:filepath] %>">
+      <% if entry.score %>
+	<li class="default badge"><%=h entry.score %></li>
+      <% end %>
+      <%= h entry[:filepath] %>
+    </a></h2>
 
     <div class="small default btn pretty">
       <a href="javascript:void(0);" onclick="javascript:$('section#js-body-<%=h key %>').toggle();$('section#js-source-<%=h key %>').toggle();">Toggle source</a>

@@ -4,6 +4,8 @@ module Gluent
 class Entry
   include GitHelper
 
+  attr_accessor :score
+
   class << self
     include GitHelper
     include RenderHelper

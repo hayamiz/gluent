@@ -1,0 +1,8 @@
+
+<h1>Search result</h1>
+
+<!-- List of entries -->
+<% entries.each do |entry| %>
+  <%= erb :_entry, :locals => {:entry => entry} %>
+  <div style="height: 2em;"></div>
+<% end %>

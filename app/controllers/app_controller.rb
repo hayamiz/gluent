@@ -177,6 +177,36 @@ class Application < Sinatra::Base
     redirect to("/show/#{filepath}")
   end
 
+  get "/search" do
+    @query = params[:query]
+
+    matches = Groonga["Entries"].select do |entry|
+      @query.split.map do |word|
+        _title = entry.match_target do |_entry|
+          _entry.title * 10
+        end
+        _path = entry.match_target do |_entry|
+          _entry.path * 10
+        end
+        _body = entry.match_target do |_entry|
+          _entry.body * 1
+        end
+        (_title =~ word) | (_path =~ word) | (_body =~ word)
+      end.inject(&:|)
+    end
+
+    entries = matches.sort_by do |match|
+      match.score * -1.0
+    end.map do |match|
+      entry = Entry.get(match[:path])
+      entry.score = match.score
+
+      entry
+    end
+
+    erb :search, locals: {entries: entries}
+  end
+
   get "/sandbox" do
     erb :sandbox
   end
