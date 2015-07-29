@@ -29,7 +29,7 @@ namespace :groonga do
   namespace :schema do
     desc "Load the schema."
     task :load => "groonga:open" do
-      require './db/groonga-schema'
+      require './db/schema/groonga'
       create_groonga_tables()
     end
   end
@@ -41,24 +41,18 @@ namespace :groonga do
 end
 
 namespace :thin do
-  task :load_env do
-    require 'yaml'
-    $gluent_config = YAML.load_file('./config/gluent.yml')
-    ENV['GLUENT_DATA_DIR'] = $gluent_config["data_dir"]
-  end
-
   desc "Start thin server."
-  task :start => :load_env do
+  task :start do
     sh "thin -s 1 -C thin-config.yml -R config.ru start"
   end
 
   desc "Stop thin server."
-  task :stop => :load_env do
+  task :stop do
     sh "thin -s 1 -C thin-config.yml -R config.ru stop"
   end
 
   desc "Restart thin server."
-  task :restart => :load_env do
+  task :restart do
     sh "thin -s 1 -C thin-config.yml -R config.ru restart"
   end
 end

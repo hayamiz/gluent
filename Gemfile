@@ -17,7 +17,7 @@ gem "sass"
 gem "coffee-script"
 gem "git"
 gem "pry"
-gem "groonga"
+gem "rroonga", require: "groonga"
 
 group :development do
   gem "shotgun"

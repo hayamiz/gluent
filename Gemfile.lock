@@ -30,8 +30,6 @@ GEM
     github-markdown (0.6.8)
     github-markup (1.3.3)
     gqtp (1.0.6)
-    groonga (1.0.0)
-      rroonga
     groonga-client (0.1.7)
       gqtp (>= 1.0.4)
       groonga-command (>= 1.0.8)
@@ -109,9 +107,9 @@ DEPENDENCIES
   github-linguist
   github-markdown
   github-markup
-  groonga
   html-pipeline
   pry
+  rroonga
   sass
   shotgun
   sinatra

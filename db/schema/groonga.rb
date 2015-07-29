@@ -1,16 +1,16 @@
 
 def create_groonga_tables
   unless Groonga["Entries"].nil?
-    Groonga["Papers"].remove
+    Groonga["Entries"].remove
   end
   unless Groonga["Bigram"].nil?
     Groonga["Bigram"].remove
   end
 
-  p(Groonga::Schema.create_table("Entries", type: :hash, key_type: "Int32") do |t|
+  p(Groonga::Schema.create_table("Entries", type: :hash, key_type: "ShortText") do |t|
+      t.text		"path"
       t.text		"title"
       t.text		"body"
-      t.text		"path"
       t.time		"mtime"
     end)
 
@@ -19,8 +19,8 @@ def create_groonga_tables
                                  key_type: "ShortText",
                                  default_tokenizer: "TokenBigram",
                                  :normalizer => "NormalizerAuto") do |t|
+      t.index "Entries.path"
       t.index "Entries.title"
       t.index "Entries.body"
-      t.index "Entries.path"
     end)
 end

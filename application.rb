@@ -8,6 +8,12 @@ require 'fileutils'
 require 'uri'
 require 'pathname'
 require 'logger'
+require 'yaml'
+
+top_dir = Pathname.new(File.expand_path("../", __FILE__))
+
+gluent_config = YAML.load_file(top_dir + "config" + "gluent.yml")
+ENV['GLUENT_DATA_DIR'] = gluent_config["data_dir"]
 
 class ImagePathFilter < HTML::Pipeline::Filter
   def call
@@ -42,3 +48,7 @@ end
 Dir[File.dirname(__FILE__) + "/config/*.rb"].each do |file|
   require file
 end
+
+# open Groonga database
+Groonga::Database.open(
+  YAML.load_file(File.expand_path('../config/groonga.yml', __FILE__))["path"])

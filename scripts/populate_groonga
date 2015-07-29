@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require File.expand_path("../../application", __FILE__)
+
+Gluent::Entry.each do |entry|
+  entry.update_groonga_record
+end
