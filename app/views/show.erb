@@ -16,7 +16,7 @@
 	    <%=h commit.message %>
 	  </div>
 	  <div class="commit-diff">
-<pre><%= diff_pretty_print(commit.diff_parent.patch) %></pre>
+<pre><%= diff_pretty_print(commit_diff(commit, entry[:filepath]).to_s) %></pre>
 	  </div>
 	</div>
       <% end %>

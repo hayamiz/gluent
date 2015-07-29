@@ -122,6 +122,22 @@ module GitHelper
     patch = patch.gsub(/^(\+.*)$/, "<span class=\"add-line\">\\1</span>")
     patch = patch.gsub(/^(-.*)$/, "<span class=\"del-line\">\\1</span>")
   end
+
+  def commit_diff(commit, path = nil)
+    empty = git.gcommit("4b825dc642cb6eb9a060e54bf8d69288fbee4904")
+
+    if commit.parent
+      diff = commit.parent.diff(commit)
+    else
+      diff = empty.diff(commit)
+    end
+
+    if path
+      diff = diff.path(path)
+    end
+
+    diff
+  end
 end
 
 end # Gluent
