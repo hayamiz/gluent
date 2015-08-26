@@ -43,17 +43,17 @@ end
 namespace :thin do
   desc "Start thin server."
   task :start do
-    sh "thin -s 1 -C thin-config.yml -R config.ru start"
+    sh "bundle exec thin -s 1 -C thin-config.yml -R config.ru start"
   end
 
   desc "Stop thin server."
   task :stop do
-    sh "thin -s 1 -C thin-config.yml -R config.ru stop"
+    sh "bundle exec thin -s 1 -C thin-config.yml -R config.ru stop"
   end
 
   desc "Restart thin server."
   task :restart do
-    sh "thin -s 1 -C thin-config.yml -R config.ru restart"
+    sh "bundle exec thin -s 1 -C thin-config.yml -R config.ru restart"
   end
 end
 
