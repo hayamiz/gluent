@@ -37,7 +37,8 @@
 </div>
 
 <script>
-var entry_filepath = "<%= h entry[:filepath] %>";
+/* FIXME: correctly escape filepath */
+var entry_filepath = "<%= entry[:filepath].gsub(/"/, '\\"') %>";
 </script>
 
 <script src="/js/edit.js"></script>
