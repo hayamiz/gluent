@@ -24,12 +24,12 @@ class Entry
       end
     end
 
-    def get(path, commit = nil)
+    def get(path, commit_hash = nil)
       content = nil
       mtime = nil
       Dir.chdir($gluent_data_dir) do
-        if commit
-          content = git.object("#{commit}:#{path}").contents
+        if commit_hash
+          content = git.object("#{commit_hash}:#{path}").contents
         else
           content = File.read(path)
         end
@@ -49,9 +49,7 @@ class Entry
                  :path => path,
                  :content => content,
                  :body => render_markdown(content), # GitHub::Markup.render(path),
-                 :git_status => git_status(path),
-                 :git_log => git_log(path),
-                 :commit => commit,
+                 :commit => commit_hash,
                  :mtime => mtime,
                  :filepath => path
                })
@@ -75,8 +73,6 @@ class Entry
       :path => nil,
       :content => nil,
       :body => nil,
-      :git_status => nil,
-      :git_log => nil,
       :commit => nil,
       :mtime => nil,
       :filepath => nil
@@ -100,6 +96,14 @@ class Entry
       val = val.gsub(/\r\n/, "\n")
     end
     @attributes[key.to_sym] = val
+  end
+
+  def gitlog
+    git_log(self[:path])
+  end
+
+  def gitstatus
+    git_status(self[:path])
   end
 
   def commit

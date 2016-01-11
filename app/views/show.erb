@@ -1,7 +1,7 @@
 <%= erb :_entry, :locals => {:entry => entry} %>
 
 <div class="git-history">
-  <% entry[:git_log].group_by{|commit| commit.date.to_i / (3600 * 24)}.each do |_,commits| %>
+  <% entry.gitlog.group_by{|commit| commit.date.to_i / (3600 * 24)}.each do |_,commits| %>
     <% commits = commits.sort_by{|commit| - commit.date.to_f} %>
     <div class="day-commits">
       <h4>Commits on <%=h commits.first.date.strftime("%Y-%m-%d") %></h4>
