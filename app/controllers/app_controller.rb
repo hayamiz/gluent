@@ -65,6 +65,8 @@ class Application < Sinatra::Base
     # TODO: sanitize filepath
     entry = Entry.get(filepath, commit)
 
+    @page_title = entry[:title]
+
     erb :show, :locals => {:entry => entry}
   end
 

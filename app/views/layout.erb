@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset=utf-8 />
-  <title>Gluent</title>
+  <title>Gluent<% if @page_title %><%=h " | " + @page_title %><% end %></title>
   <%= stylesheets %>
   <%= javascripts %>
 </head>
