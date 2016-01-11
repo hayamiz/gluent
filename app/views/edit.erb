@@ -44,4 +44,8 @@ var entry_filepath = "<%= entry[:filepath].gsub(/"/, '\\"') %>";
 <script src="/js/edit.js"></script>
 <script src="/js/markdown_assist.js"></script>
 <script src="/js/dragdrop.js"></script>
+<script src="/js/scrollsync.js"></script>
+
+<script>
+var sync = new ScrollSynchronizer($("#edit-content"), $("#js-preview-div"));
 </script>

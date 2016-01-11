@@ -67,7 +67,6 @@ function update_preview() {
 function edit_form_keyup_handler(){
   update_title();
   update_selection_info();
-  set_preview_scroll();
 
   update_status();
 }
@@ -282,18 +281,6 @@ $("#edit-content").on("mousedown", function(e){
 });
 $("#edit-content").on("mousemove", function(e){
   edit_form_mousemove_handler(e);
-});
-
-function set_preview_scroll() {
-  var textarea = $("#edit-content");
-  var preview_div = $("#js-preview-div");
-
-  var scroll_frac = textarea.scrollTop() / (textarea[0].scrollHeight - textarea.height());
-  preview_div.scrollTop((preview_div[0].scrollHeight - preview_div.height()) * scroll_frac);
-}
-
-$("#edit-content").on("scroll", function(){
-  set_preview_scroll();
 });
 
 function layout_status() {
