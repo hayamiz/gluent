@@ -62,6 +62,6 @@ namespace :shotgun do
   task :start do
     require 'yaml'
     thin_config = YAML.load_file("./thin-config.yml")
-    sh "shotgun config.ru -p #{thin_config["port"]}"
+    sh "bundle exec shotgun config.ru -p #{thin_config["port"]}"
   end
 end
