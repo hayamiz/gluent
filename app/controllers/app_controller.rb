@@ -181,6 +181,7 @@ class Application < Sinatra::Base
 
   get "/search" do
     @query = params[:query]
+    @sort_by = params[:sort_by]
 
     matches = Groonga["Entries"].select do |entry|
       @query.split.map do |word|
@@ -197,16 +198,30 @@ class Application < Sinatra::Base
       end.inject(&:|)
     end
 
-    entries = matches.sort_by do |match|
-      match.score * -1.0
-    end.map do |match|
+    entries = matches.map do |match|
       entry = Entry.get(match[:path])
       entry.score = match.score
 
       entry
     end
 
-    erb :search, locals: {entries: entries}
+    @sort_by ||= "score"
+    sort_proc = nil
+
+    case @sort_by
+    when "score"
+      sort_proc = lambda do |entry|
+        entry.score * -1.0
+      end
+    when "date"
+      sort_proc = lambda do |entry|
+        entry[:mtime].to_i * -1
+      end
+    end
+
+    entries = entries.sort_by(&sort_proc)
+
+    erb :search, locals: {query: @query, sort_by: @sort_by, entries: entries}
   end
 
   get "/sandbox" do

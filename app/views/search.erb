@@ -1,6 +1,10 @@
 
 <h1>Search result</h1>
 
+Sort by:
+<div class="oval btn default"><a href="/search?<%=h URI.encode_www_form(:query => query, :sort_by => 'date') %>">date</a></div>
+<div class="oval btn default"><a href="/search?<%=h URI.encode_www_form(:query => query, :sort_by => 'score') %>">score</a></div>
+
 <!-- List of entries -->
 <% entries.each do |entry| %>
   <%= erb :_entry, :locals => {:entry => entry} %>
