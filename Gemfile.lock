@@ -44,6 +44,7 @@ GEM
     i18n (0.7.0)
     io-like (0.3.0)
     json (1.8.3)
+    libv8 (3.16.14.13)
     method_source (0.8.2)
     mime-types (2.6.1)
     mini_portile (0.6.2)
@@ -66,6 +67,7 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
+    ref (2.0.0)
     rroonga (5.0.4)
       archive-zip
       groonga-client (>= 0.0.3)
@@ -94,6 +96,9 @@ GEM
     slop (3.6.0)
     test-unit (3.1.2)
       power_assert
+    therubyracer (0.12.2)
+      libv8 (~> 3.16.14.0)
+      ref
     thin (1.6.3)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0)
@@ -108,6 +113,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-script
+  execjs
   gemoji
   git
   github-linguist
@@ -124,8 +130,9 @@ DEPENDENCIES
   sinatra-partial
   sinatra-r18n
   test-unit
+  therubyracer
   thin
   tilt (~> 1.4.1)
 
 BUNDLED WITH
-   1.10.5
+   1.11.2
