@@ -55,6 +55,24 @@ namespace :thin do
   task :restart do
     sh "bundle exec thin -s 1 -C thin-config.yml -R config.ru restart"
   end
+
+  desc "Check status of thin server"
+  task :status do
+    thin_pid_file = Dir.glob("tmp/pids/thin.*.pid").first
+    if thin_pid_file
+      thin_pid = File.read(thin_pid_file).to_i
+      begin
+        Process.kill(0, thin_pid)
+        puts "thin is running"
+      rescue Errno::ESRCH
+        puts "[ERROR] pid file exists, but thin is no running"
+        fail
+      end
+    else
+      puts "thin server is not running"
+      fail
+    end
+  end
 end
 
 namespace :shotgun do

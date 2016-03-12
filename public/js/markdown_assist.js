@@ -7,9 +7,14 @@ function MarkdownAssistant(textarea) {
 
   this.in_save_excursion = false;
 
+  this.onetime_keyup_handlers = [];
+
   // bind event handlers
   this.textarea.on("keydown", function(e){
     return ma.keydown_handler(e);
+  });
+  this.textarea.on("keyup", function(e){
+    return ma.keyup_handler(e);
   });
   this.textarea.on("keypress", function(e){
     return ma.keypress_handler(e);
@@ -24,6 +29,20 @@ MarkdownAssistant.prototype.keydown_handler = function(e) {
   } else if (e.keyCode == 9) {  // <TAB>
     return this.action_TabKey(e.shiftKey);
   }
+};
+
+MarkdownAssistant.prototype.keyup_handler = function(e) {
+  if (this.onetime_keyup_handlers.length == 0) {
+    return;
+  }
+
+  for (var i = 0; i < this.onetime_keyup_handlers.length; i++) {
+    var handler = this.onetime_keyup_handlers[i];
+
+    handler();
+  }
+
+  this.onetime_keyup_handlers = [];
 };
 
 MarkdownAssistant.prototype.keypress_handler = function(e) {
@@ -123,7 +142,6 @@ MarkdownAssistant.prototype.keypress_close_parens = function(e) {
     "[": "]",
     "{": "}",
     "\"": "\"",
-    "'": "'",
     "`": "`",
   };
   var closers = []
@@ -176,15 +194,23 @@ MarkdownAssistant.prototype.action_EnterKey = function() {
   }
 
   if (context.type == "ulist") {
-    this.insert("\n");
-    this.insert(context.leading_spaces + context.symbol + context.following_spaces);
-    return false;
+    var self = this;
+    if (context.content.length > 0) {
+      this.onetime_keyup_handlers.push(function(){
+        self.insert(context.leading_spaces + context.symbol + context.following_spaces);
+      });
+    }
+    return true;
   }
 
   if (context.type == "olist") {
-    this.insert("\n");
-    this.insert(context.leading_spaces + (context.number + 1).toString() + "." + context.following_spaces);
-    return false;
+    var self = this;
+    if (context.content.length > 0) {
+      this.onetime_keyup_handlers.push(function(){
+        this.insert(context.leading_spaces + (context.number + 1).toString() + "." + context.following_spaces);
+      });
+    }
+    return true;
   }
 
   return true;
