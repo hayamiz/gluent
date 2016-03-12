@@ -330,6 +330,7 @@ $(document).ready(function() {
   update_status();
   do_layout_elems();
   ma = new MarkdownAssistant(textarea);
+  em = new EmacsBind(textarea);
   textarea.focus();
   update_title();
   edit_form_keyup_handler();
