@@ -64,11 +64,15 @@ function update_preview() {
     });
 }
 
-function edit_form_keyup_handler(){
+
+var keyup_task = new LazyDispatcher(function(){
   update_title();
   update_selection_info();
-
   update_status();
+}, 1000);
+
+function edit_form_keyup_handler(){
+  keyup_task.fire();
 }
 
 function update_selection_info(){
@@ -148,23 +152,44 @@ function LazyDispatcher(func, latency) {
   this.handle = null;
   this.func = func;
   this.latency = latency;
-}
-LazyDispatcher.prototype = {
-  fire: function(){
-    var dispatcher = this;
-    if (this.handle != null) {
-      clearTimeout(this.handle);
+  this.queueing = false;
+
+  LazyDispatcher.queue = [];
+
+  // create global timer
+  if (LazyDispatcher.global_timer == undefined ||
+      LazyDispatcher.global_timer.interval > latency) {
+
+    if (LazyDispatcher.global_timer != undefined) {
+      clearInterval(LazyDispatcher.global_timer.handle);
     }
 
-    this.handle = setTimeout(function(){
-      dispatcher.func();
-      dispatcher.handle = null;
-    }, this.latency);
-  },
-  set_func: function(func) {
-    this.func = func;
+    LazyDispatcher.global_timer = {
+      handle: setInterval(function() {
+        for (var i = 0; i < LazyDispatcher.queue.length; i++) {
+          LazyDispatcher.queue[i]();
+        }
+        LazyDispatcher.queue = [];
+      }, latency),
+      interval: latency
+    };
   }
 }
+LazyDispatcher.prototype.fire = function(){
+  var self = this;
+
+  if (this.queueing == false) {
+    LazyDispatcher.queue.push(function() {
+      self.func();
+      self.queueing = false;
+    });
+    self.queueing = true;
+  }
+};
+LazyDispatcher.set_func = function(func) {
+  this.func = func;
+};
+
 
 function StatusBar() {
   var bar = this;
