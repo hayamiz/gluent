@@ -28,6 +28,13 @@
 	  <%= h entry[:title] %> (<%= h entry[:filepath] %>)
 	<% end %>
       </a>
+      <% if entry.heads.size > 0 %>
+        <ul class="entry-heads">
+          <% entry.heads.each do |head| %>
+            <li class="default alert"><%=h head %></li>
+          <% end %>
+        </ul>
+      <% end %>
     </li>
   <% end %>
 </ul>

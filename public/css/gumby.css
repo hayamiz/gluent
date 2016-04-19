@@ -1732,6 +1732,8 @@ ul.pages li a { border: solid 1px #3085d6; background: #3085d6; color: white; pa
 ul.pages li a:hover { color: #3085d6; background: white; }
 ul.pages li a.current-page { color: #3085d6; background: white; }
 
+ul.entry-heads li { display: inline; }
+
 nav#navi-bar { font-size: 16px; line-height: 24px; text-align: left; padding: 0.3em 1em; display: block; width: 100%; background-color: #3085d6; }
 nav#navi-bar a { color: white; }
 nav#navi-bar form { display: inline; padding-left: 20px; }
