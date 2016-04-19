@@ -98,6 +98,18 @@ class Entry
     @attributes[key.to_sym] = val
   end
 
+  def heads
+    if @heads
+      return @heads
+    end
+
+    # extract H2 heads
+    doc = Nokogiri.parse("<html>" + self[:body] + "</html>")
+    @heads = doc.search('//h2').map do |head|
+      head.inner_text
+    end
+  end
+
   def gitlog
     git_log(self[:path])
   end
