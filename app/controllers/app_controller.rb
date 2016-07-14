@@ -111,7 +111,9 @@ class Application < Sinatra::Base
     entry[:content] = params[:content]
     entry.save(do_commit)
 
-    redirect to("/show/#{filepath}")
+    unless params[:api_call]
+      redirect to("/show/#{filepath}")
+    end
   end
 
   post "/preview" do
