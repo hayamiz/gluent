@@ -29,7 +29,7 @@
 		this.debugMode = Boolean($('script[gumby-debug]').length);
 		this.touchDevice = !!(Modernizr.touch || window.navigator.userAgent.indexOf("Windows Phone") > 0);
 		this.gumbyTouch = false;
-		this.touchEvents = 'js/libs';
+		this.touchEvents = '/js/libs';
 		this.breakpoint = Number($('script[gumby-breakpoint]').attr('gumby-breakpoint')) || 768;
 		this.touchEventsLoaded = false;
 		this.uiModulesReady = false;
