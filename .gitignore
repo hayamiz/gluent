@@ -2,6 +2,7 @@
 /db/groonga
 /db/groonga.*
 /config/groonga.yml
+/config/session_secret
 /thin-config.yml
 /tmp/pids/thin.*.pid
 /config/gluent.yml
