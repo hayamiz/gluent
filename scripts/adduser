@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+require 'digest/sha1'
+require 'io/console'
+
+config_dir = File.expand_path("../config", __dir__)
+passwd_file = File.expand_path("passwd", config_dir)
+
+if File.exists?(passwd_file)
+  passwd_data = YAML.load(File.read(passwd_file))
+else
+  passwd_data = []
+end
+
+puts("** Adding new user **")
+$stdout.print("User ID: ")
+$stdout.flush
+user = $stdin.gets.strip
+
+while true
+  $stdout.print("Password: ")
+  $stdout.flush
+  password = STDIN.noecho(&:gets).strip
+  puts
+  $stdout.print("Re-enter password: ")
+  $stdout.flush
+  password_re = STDIN.noecho(&:gets).strip
+  puts
+
+  if password == password_re
+    break
+  else
+    puts "[ERROR] password not matched."
+    puts ""
+  end
+end
+
+passwd_data.push({username: user, hashed_password: Digest::SHA1.hexdigest(password)})
+
+File.open(passwd_file, "w") do |f|
+  f.puts(passwd_data.to_yaml)
+end
+
+puts "User #{user} is successfully added."
+
+exit(true)
