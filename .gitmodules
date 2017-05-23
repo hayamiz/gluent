@@ -1,0 +1,3 @@
+[submodule "vendor/scrollsyncjs"]
+	path = vendor/scrollsyncjs
+	url = git@github.com:hayamiz/scrollsyncjs.git
