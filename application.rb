@@ -14,6 +14,7 @@ $top_dir = Pathname.new(File.expand_path("../", __FILE__))
 
 gluent_config = YAML.load_file($top_dir + "config" + "gluent.yml")
 ENV['GLUENT_DATA_DIR'] = gluent_config["data_dir"]
+SESSION_SECRET = File.read(File.expand_path("config/session_secret", $top_dir))
 
 class ImagePathFilter < HTML::Pipeline::Filter
   def call

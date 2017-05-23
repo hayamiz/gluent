@@ -5,13 +5,46 @@ class Application < Sinatra::Base
   register Sinatra::R18n
   register Sinatra::Partial
 
+  set :session_secret, SESSION_SECRET
+  enable :sessions
   set :root, File.expand_path("../..", __FILE__)
   set :public_folder, File.expand_path("../../../public", __FILE__)
 
-  helpers do
+  register do
+    def auth(type)
+      condition do
+        redirect "/login" unless send("is_#{type}?")
+      end
+    end
   end
 
-  get "/" do
+  helpers do
+    def is_user?
+      @user != nil
+    end
+  end
+
+  before do
+    @user = User.get(session[:username])
+  end
+
+  get "/login" do
+    erb :login
+  end
+
+  post "/login" do
+    session[:username] = User.authenticate(params).username
+
+    redirect to("/")
+  end
+
+  get "/logout" do
+    session[:username] = nil
+
+    redirect to("/login")
+  end
+
+  get "/", :auth => :user do
     per_page = 20
     entries = []
     num_pages = 1
@@ -29,11 +62,11 @@ class Application < Sinatra::Base
     erb :index, :locals => {:entries => entries, :num_pages => num_pages, :page_idx => page_idx}
   end
 
-  get "/create" do
+  get "/create", :auth => :user  do
     erb :create, :locals => {:default_path => Time.now.strftime("%Y%m%d.md")}
   end
 
-  post "/create" do
+  post "/create", :auth => :user  do
     filepath = params[:filepath]
 
     # TODO: sanitize filepath
@@ -55,7 +88,7 @@ class Application < Sinatra::Base
     redirect to("/edit/#{filepath}")
   end
 
-  get "/show/*" do |filepath|
+  get "/show/*", :auth => :user  do |filepath|
     if params[:commit]
       commit = params[:commit]
     else
@@ -70,7 +103,7 @@ class Application < Sinatra::Base
     erb :show, :locals => {:entry => entry}
   end
 
-  get "/data/*" do |filepath|
+  get "/data/*", :auth => :user  do |filepath|
     # TODO sanitize filepath
 
     Dir.chdir($gluent_data_dir) do
@@ -82,7 +115,7 @@ class Application < Sinatra::Base
     send_file File.expand_path(filepath, $gluent_data_dir)
   end
 
-  get "/edit/*" do |filepath|
+  get "/edit/*", :auth => :user  do |filepath|
     # TODO sanitize filepath
     entry = nil
     Dir.chdir($gluent_data_dir) do
@@ -94,7 +127,7 @@ class Application < Sinatra::Base
     erb :edit, :layout => :edit_layout, :locals => {:entry => entry}
   end
 
-  post "/edit/*" do |filepath|
+  post "/edit/*", :auth => :user  do |filepath|
     # TODO  sanitize filepath
 
     if params[:do_commit].nil?
@@ -116,7 +149,7 @@ class Application < Sinatra::Base
     end
   end
 
-  post "/preview" do
+  post "/preview", :auth => :user  do
     unless params[:content]
       halt "no content"
     end
@@ -125,7 +158,7 @@ class Application < Sinatra::Base
     render_markdown(params[:content])
   end
 
-  post "/upload" do
+  post "/upload", :auth => :user  do
     content_type :json
 
     file_keys = params.keys.select do |key_sym|
@@ -168,7 +201,7 @@ class Application < Sinatra::Base
     uploaded_files.to_json
   end
 
-  get "/commit/*" do |filepath|
+  get "/commit/*", :auth => :user  do |filepath|
     # TODO: sanitize filepath
     Dir.chdir($gluent_data_dir) do
       if ! File.exists?(filepath)
@@ -181,7 +214,7 @@ class Application < Sinatra::Base
     redirect to("/show/#{filepath}")
   end
 
-  get "/search" do
+  get "/search", :auth => :user  do
     @query = params[:query]
     @sort_by = params[:sort_by]
 
