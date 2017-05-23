@@ -1,1 +1,1 @@
-/Users/haya/megaru/repos/scrollsyncjs/scrollsync.js
+../../vendor/scrollsyncjs/scrollsync.js
